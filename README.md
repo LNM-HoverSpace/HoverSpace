@@ -31,4 +31,4 @@
 5. **_Enjoy!_**
 
 ## Resources
-    * [Pymongo](http://api.mongodb.com/python/current/index.html)
+ * [Pymongo](http://api.mongodb.com/python/current/index.html)
