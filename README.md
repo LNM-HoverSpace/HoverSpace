@@ -20,14 +20,14 @@
 
 9. **deactivate** virtual environment by using `deactivate`
 
-10. Create a file named **.env** and write
-    `source env/bin/activate`
+10. Create a file named **.env** and write  
+    `source env/bin/activate`  
     `export APP_SETTINGS="config.DevelopmentConfig"`
 
-11. Build your corresponding .bashrc or .zshrc file using
-    `source ~/.zshrc` if using zsh
-    or
-    `source ~/.bashrc` if using bash
+11. Build your corresponding .bashrc or .zshrc file using  
+    `source ~/.zshrc` if using zsh  
+    or  
+    `source ~/.bashrc` if using bash  
 
     Now everytime you cd into this folder automatically the settings will be applied
 
