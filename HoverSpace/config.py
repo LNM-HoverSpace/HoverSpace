@@ -1,10 +1,6 @@
 import os
-from pymongo import MongoClient
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
-DB_NAME = 'hoverspace'
-DATABASE = MongoClient()[DB_NAME]
 
 class Config(object):
     DEBUG = False
