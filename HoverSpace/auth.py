@@ -14,9 +14,9 @@ def home():
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
-        user = USERS_COLLECTION.find_one({"_id": form.username.data})
+        user = USERS_COLLECTION.find_one({ "username": form.username.data })
         if user and User.validate_login(user['password'], form.password.data):
-            user_obj = User(user['_id'])
+            user_obj = User(user['username'])
             login_user(user_obj)
             flash("Logged in successfully!", category='success')
             return redirect(request.args.get("next") or url_for("empty"))
@@ -36,7 +36,7 @@ def empty():
 
 @lm.user_loader
 def load_user(username):
-    u = USERS_COLLECTION.find_one({"_id": username})
+    u = USERS_COLLECTION.find_one({"username": username})
     if not u:
         return None
-    return User(u['_id'])
+    return User(u['username'])
