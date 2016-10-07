@@ -1,6 +1,6 @@
 import datetime
 from HoverSpace.models import QUESTIONS_COLLECTION
-from HoverSpace.user import User
+#from HoverSpace.user import User
 
 class Question():
 
@@ -10,7 +10,6 @@ class Question():
         self.timestamp = datetime.datetime.utcnow()
         self.short_description = short_description
         self.long_description = long_description
-        
 
     def post_question(self):
         quesID = QUESTIONS_COLLECTION.insert_one({
