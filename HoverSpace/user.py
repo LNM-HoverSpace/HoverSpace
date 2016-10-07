@@ -14,7 +14,8 @@ class User(UserMixin):
             USERS_COLLECTION.insert_one({
                 '_id': self.username, 'email': self.email,
                 'firstname': self.firstname, 'lastname': self.lastname,
-                'password': generate_password_hash(self.password)})
+                'password': generate_password_hash(self.password),
+                'quesPosted': [], 'ansPosted': []})
 
     @property
     def is_authenticated(self):
@@ -32,7 +33,10 @@ class User(UserMixin):
         return self.username
 
     def update_questions(self, quesID):
-        pass
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'quesPosted': quesID}})
+
+    def update_answers(self, ansID):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'ansPosted': ansID}})
 
     '''def set_password(self, password):
         self.password = generate_password_hash(password)

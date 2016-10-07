@@ -1,5 +1,5 @@
 import datetime
-from HoverSpace.models import ANSWERS_COLLECTION
+from HoverSpace.models import ANSWERS_COLLECTION, QUESTION_COLLECTION
 from HoverSpace.user import User
 
 class Answers():
@@ -18,5 +18,17 @@ class Answers():
 
         usr = User(self.posetdBy)
         usr.update_answers(str(ansID))
-        Question.update_answers(str(ansID))
+        ques = QuestionMethods(quesID)
+        ques.update_answers(str(ansID))
         return ansID
+
+class AnswerMethods():
+    def __init__(self, quesID):
+        self.quesID = quesID
+
+    def get_answers(quesID):
+        answers = []
+        answers = QUESTION_COLLECTION.find_one({'_id': quesID})['ansID']
+        ans = []
+        for i in answers:
+            ans_obj = ANSWERS_COLLECTION.find({'_id': answers})
