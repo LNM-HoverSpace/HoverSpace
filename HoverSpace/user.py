@@ -11,7 +11,7 @@ class User():
         self.password = password
         if db:
             USERS_COLLECTION.insert_one({
-                'username': self.username, 'email': self.email,
+                '_id': self.username, 'email': self.email,
                 'firstname': self.firstname, 'lastname': self.lastname,
                 'password': generate_password_hash(self.password)})
 
@@ -26,6 +26,9 @@ class User():
 
     def get_id(self):
         return self.username
+
+    def update_questions(self, quesID):
+        pass
 
     '''def set_password(self, password):
         self.password = generate_password_hash(password)
