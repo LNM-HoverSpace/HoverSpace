@@ -32,10 +32,11 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('post-a-question')}}">Post a Question</a></li>
                             <li><a href="{{ url_for('logout') }}">Logout</a></li>
                         {% else %}
-                          <li><a href="{{ url_for('login') }}">Login</a></li>
-                          <li><a href="{{ url_for('signup') }}">SignUp</a></li>
+                            <li><a href="{{ url_for('login') }}">Login</a></li>
+                            <li><a href="{{ url_for('signup') }}">SignUp</a></li>
                         {% endif %}
                     </ul>
                 </div>

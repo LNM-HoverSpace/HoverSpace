@@ -3,17 +3,14 @@
 
         <form action="" method="POST" name="form">
             <div class="col-md-4 col-md-offset-4">
-                {{ form.hidden_tag() }}
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden'%}
                 <div class="form-group">
-                    <label class="control-label" for="username">Username</label>
-                    {{ form.username }}
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="password">Password</label>
-                    {{ form.password }}
-                </div>
-                <button class="btn btn-default" type="submit">Submit</button>
+                    <label class="control-label" for={{field.name}}> {{ field.label }} </label>
+                    {{ field }}
+            {% endfor %}
             </div>
+            <button class="btn btn-default" type="submit">Submit</button>
         </form>
 
 {% endblock %}
