@@ -14,7 +14,8 @@ class Answers():
     def post_answer(self):
         ansID = ANSWERS_COLLECTION.insert_one({
                     'posetdBy': self.posetdBy, 'quesID': self.quesID,
-                    'ansText': self.ansText, 'timestamp': self.timestamp}).inserted_id
+                    'ansText': self.ansText, 'timestamp': self.timestamp,
+                    'quesID': []}).inserted_id
 
         usr = User(self.posetdBy)
         usr.update_answers(str(ansID))

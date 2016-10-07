@@ -13,6 +13,7 @@ def post_question():
     if request.method == 'POST':
         try:
             username = current_user.get_id()
+
             question = QUESTIONS_COLLECTION.find_one( {'short_description': form.short_description.data} )
             if question:
                 flash("This queston has already been asked", category='error')
@@ -21,15 +22,16 @@ def post_question():
             quesID = ques_obj.post_question()
             flash("Your question has been successfully posted.", category='success')
             #return redirect(url_for('empty'))
-            return redirect(url_for('home') + 'questions/' + str(quesID))
+            print(quesID)
+            return redirect(url_for('questions') + str(quesID) + '/')
         except KeyError:
             return redirect(url_for('login'))
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
 
 
-@app.route('/questions/<string:quesID>', methods=['GET', 'POST'])
+@app.route('/questions/<quesID>', methods=['GET', 'POST'])
 @login_required
-def view_question(quesID):
+def questions(quesID):
     print("Chutiya")
     '''form = AnswerForm()
     ques_obj = QuestionMethods(quesID)
@@ -37,4 +39,4 @@ def view_question(quesID):
     ans_obj = AnswerMethods(quesID)
     ans = ans_obj.get_answers(quesID)
     render_template('question.html', ques=ques, ans=ans, form=form)'''
-    render_template('question.html', form=form)
+    render_template('login.html', form=form)
