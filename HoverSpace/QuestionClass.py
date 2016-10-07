@@ -12,7 +12,7 @@ class Question():
     def post_question(self):
         quesID = QUESTIONS_COLLECTION.insert_one({
                     'short_description': self.short_description, 'long_description': self.long_description,
-                    'posetdBy': self.posetdBy, 'timestamp': self.timestamp}).inserted_id
+                    'posetdBy': self.posetdBy, 'timestamp': self.timestamp, 'ansID': []}).inserted_id
 
         return quesID
 
