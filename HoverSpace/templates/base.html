@@ -35,6 +35,7 @@
                             <li><a href="{{ url_for('post-a-question')}}">Post a Question</a></li>
                             <li><a href="{{ url_for('logout') }}">Logout</a></li>
                         {% else %}
+                            <li><a href="{{ url_for('post_question')}}">Post a Question</a></li>
                             <li><a href="{{ url_for('login') }}">Login</a></li>
                             <li><a href="{{ url_for('signup') }}">SignUp</a></li>
                         {% endif %}

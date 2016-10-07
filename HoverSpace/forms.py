@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextField
+from wtforms import StringField, PasswordField, TextField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class LoginForm(FlaskForm):
@@ -16,5 +16,5 @@ class SignUpForm(FlaskForm):
 
 
 class QuestionForm(FlaskForm):
-	short_description = StringField('Short Desciption of question', validators=[DataRequired(), Length(max=100)])
-	long_description = StringField('Long Desciption of question', validators=[Length(max=500)])
+	short_description = TextAreaField('Short Desciption', validators=[DataRequired(), Length(max=100)])
+	long_description = TextAreaField('Long Desciption', validators=[Length(max=500)])
