@@ -4,3 +4,4 @@ DB_NAME = 'hoverspace'
 DATABASE = MongoClient()[DB_NAME]
 
 USERS_COLLECTION = DATABASE.users
+QUESTIONS_COLLECTION = DATABASE.questions
