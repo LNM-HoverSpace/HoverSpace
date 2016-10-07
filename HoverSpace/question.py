@@ -20,19 +20,21 @@ def post_question():
             ques_obj = Question(username, form.short_description.data, form.long_description.data)
             quesID = ques_obj.post_question()
             flash("Your question has been successfully posted.", category='success')
-            return redirect(url_for('empty'))
-            #return redirect(url_for('home') + 'questions/' + str(quesID))
+            #return redirect(url_for('empty'))
+            return redirect(url_for('home') + 'questions/' + str(quesID))
         except KeyError:
             return redirect(url_for('login'))
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
 
 
-@app.route('/questions/<quesID>/', methods=['GET', 'POST'])
+@app.route('/questions/<string:quesID>', methods=['GET', 'POST'])
 @login_required
-def view_question():
-    form = AnswerForm()
+def view_question(quesID):
+    print("Chutiya")
+    '''form = AnswerForm()
     ques_obj = QuestionMethods(quesID)
-    ques_obj.get_question()
+    ques = ques_obj.get_question()
     ans_obj = AnswerMethods(quesID)
-    ans_obj.get_answers(quesID)
-    render_template('question.html', ques=ques_obj, ans=ans_obj, form=form)
+    ans = ans_obj.get_answers(quesID)
+    render_template('question.html', ques=ques, ans=ans, form=form)'''
+    render_template('question.html', form=form)
