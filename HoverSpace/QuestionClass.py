@@ -1,6 +1,5 @@
 import datetime
 from HoverSpace.models import QUESTIONS_COLLECTION
-#from HoverSpace.user import User
 
 class Question():
 
