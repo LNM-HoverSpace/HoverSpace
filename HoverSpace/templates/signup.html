@@ -4,26 +4,12 @@
   <form action="" method="POST" name="form">
     <div class="col-md-4 col-md-offset-4">
       {{ form.hidden_tag() }}
+      {% for field in form if field.widget.input_type != 'hidden' %}
       <div class="form-group">
-        <label class="control-label" for="username">Username</label>
-        {{ form.username }}
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="firstname">First name</label>
-        {{ form.firstname }}
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="lastname">Last name</label>
-        {{ form.lastname }}
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="email">Email Address</label>
-        {{ form.email }}
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="password">Password</label>
-        {{ form.password }}
-      </div>
+        <label class="control-label" for={{field.name}}>{{ field.label }}</label>
+        {{ field }}
+        </div>
+      {% endfor %}
       <button class="btn btn-default" type="submit">Submit</button>
     </div>
   </form>
