@@ -1,16 +1,14 @@
 from HoverSpace.application import app, lm
-from flask import request, redirect, session, render_template, url_for, flash
+from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required
 from HoverSpace.models import USERS_COLLECTION
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm
-from HoverSpace.question import post_question
 
 
 @app.route('/')
 def home():
     return render_template('home.html')
-
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -20,16 +18,13 @@ def login():
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
             login_user(user_obj)
-            session['username'] = user_obj.get_id()
             flash("Logged in successfully!", category='success')
             return redirect(request.args.get("next") or url_for("empty"))
         flash("Wrong username or password!", category='error')
     return render_template('login.html', title='HoverSpace | Login', form=form)
 
-
 @app.route('/logout/')
 def logout():
-    session.pop('username', None)
     logout_user()
     return redirect(url_for('login'))
 
@@ -42,7 +37,7 @@ def signup():
         if user:
             flash("You have already signed up from this email id", category='error')
         else:
-            user = USERS_COLLECTION.find_one( {'username': form.username.data} )
+            user = USERS_COLLECTION.find_one( {'_id': form.username.data} )
             if user:
                 flash("That username has already been taken", category='error')
             else:
@@ -60,7 +55,7 @@ def empty():
 
 @lm.user_loader
 def load_user(username):
-    u = USERS_COLLECTION.find_one({"username": username})
+    u = USERS_COLLECTION.find_one({"_id": username})
     if not u:
         return None
-    return User(u['username'])
+    return User(u['_id'])
