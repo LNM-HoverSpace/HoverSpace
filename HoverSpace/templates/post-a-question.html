@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="POST" name="question">
-	
-</form>
+	<form action="" method="POST" name="question">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+   	        <label class="control-label" for=short_description> {{ form.short_description.label }} </label>
+            {{ form.short_description(rows='5', cols='100') }}
+        </div>
+        <br>
+       	<div class="form-group">
+            <label class="control-label" for=long_description> {{ form.long_description.label }} </label>
+            {{ form.long_description(rows='10', cols='100') }}
+        </div>
+        <button class="btn btn-default" type="submit">Submit</button>
+	</form>
+{% endblock %}
