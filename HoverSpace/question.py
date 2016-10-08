@@ -34,9 +34,9 @@ def view_question(quesID):
     form = AnswerForm()
     ques_obj = QuestionMethods(quesID)
     ques = ques_obj.get_question()
-    ans_obj = AnswerMethods(quesID)
-    ans = ans_obj.get_answers(quesID)
-    print(ans)
+    ansmet_obj = AnswerMethods(quesID)
+    ans = ansmet_obj.get_answers(quesID)
+
     if request.method == 'POST':
         username = current_user.get_id()
         ans_obj = Answers(username, quesID, form.ans_text.data)

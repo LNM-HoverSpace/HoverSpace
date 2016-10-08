@@ -2,6 +2,7 @@ import datetime
 from HoverSpace.models import ANSWERS_COLLECTION, QUESTIONS_COLLECTION
 from HoverSpace.user import User
 from HoverSpace.QuestionClass import QuestionMethods
+from bson.objectid import ObjectId
 
 class Answers():
     #  quesID, short_description, long_description, posetdBy, timestamp, ansID, upvotes, downvotes
@@ -29,12 +30,11 @@ class AnswerMethods():
         self.quesID = quesID
 
     def get_answers(self, quesID):
+        answers = []
         try:
-            answers = QUESTIONS_COLLECTION.find_one({'_id': quesID})['ansID']
-            print("asnasdas")
-            print(answers)
+            ans_obj = (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(quesID)}))['ansID']
+            for answer in ans_obj:
+                answers.append(ANSWERS_COLLECTION.find_one({'_id': ObjectId(answer)}))
         except TypeError:
             answers = []
-        ans = []
-        ans_obj = ANSWERS_COLLECTION.find({'_id': answers})
-        return ans_obj
+        return answers
