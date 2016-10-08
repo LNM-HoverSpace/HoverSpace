@@ -1,8 +1,25 @@
-{% extends "base.html" %}
+{% extends "base.html"%}
 {% block content %}
-		
-	{% for i in short_description %}	 
-		{{i}} </br>
-	{%endfor%}
+    <div class = "container">
+      <div class="jumbotron">
 
-{% endblock %}
+      <form > 
+      {% for i in short_description %}
+        <div class = "form-group">
+          <label class = "control-label" for = "short_description">
+            <label for = "short_description">Short Description : {{ i }}</label>
+          </label>
+          <br>
+          <label class = "control-label" for = "short_description">
+            <label for = "short_description">Long Description : {{ i }}</label>
+          </label>
+        </div>
+        <br>
+        <label class = "control-label" for = "postedBy">
+            <label for = "asn_text"> Answer: {{ i }}</label>
+        </label>
+      {% endfor %}
+      </form>
+      </div>
+    </div>
+  {% endblock %}
