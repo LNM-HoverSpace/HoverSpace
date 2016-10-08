@@ -28,6 +28,4 @@ class QuestionMethods():
         return ques_dict
 
     def update_answers(self, ansID):
-        print("updating")
-        QUESTIONS_COLLECTION.update({'_id': self.quesID}, {'$addToSet': {'ansPosted': ansID}})
-        QUESTIONS_COLLECTION.find_one_and_update({'_id': self.quesID}, {'$addToSet': {'ansPosted': ansID}})
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'ansID': ansID}})
