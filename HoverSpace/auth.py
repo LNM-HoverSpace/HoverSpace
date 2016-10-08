@@ -1,14 +1,31 @@
 from HoverSpace.application import app, lm
 from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required
-from HoverSpace.models import USERS_COLLECTION
+from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm
+from bson.objectid import ObjectId
 
+'''@app.route('/')
+def home():
+    return render_template('home.html', short_description=[])'''
 
 @app.route('/')
+@app.route('/home/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    question = QUESTIONS_COLLECTION.find()
+    answer = list()
+    for record in question:
+        try:
+            for ansID in record['ansID']:
+                for ans in ANSWERS_COLLECTION.find({'_id': ObjectId(ansID)}):
+                    answer.append(record['short_description'])
+                    answer.append(record['long_description'])
+                    answer.append(ans['ansText'])
+                break
+        except KeyError:
+            pass
+    return render_template('home.html', title='HoverSpace | Home', short_description=answer)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -19,7 +36,7 @@ def login():
             user_obj = User(user['_id'])
             login_user(user_obj, remember=True)
             flash("Logged in successfully!", category='success')
-            return redirect(request.args.get("next") or url_for("empty"))
+            return redirect(url_for('home'))
         flash("Wrong username or password!", category='error')
     return render_template('login.html', title='HoverSpace | Login', form=form)
 
@@ -27,7 +44,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
 
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
@@ -49,7 +65,6 @@ def signup():
 
 
 @app.route('/empty', methods=['GET', 'POST'])
-@login_required
 def empty():
     return render_template('empty.html')
 
