@@ -4,7 +4,8 @@ from flask_login import login_required, current_user
 from HoverSpace.models import QUESTIONS_COLLECTION
 from HoverSpace.forms import QuestionForm, AnswerForm
 from HoverSpace.QuestionClass import Question, QuestionMethods
-from HoverSpace.AnswerClass import AnswerMethods
+from HoverSpace.AnswerClass import Answers, AnswerMethods
+from HoverSpace.user import User            #check
 
 @app.route('/post-a-question/', methods=['GET', 'POST'])
 @login_required
@@ -13,7 +14,6 @@ def post_question():
     if request.method == 'POST':
         try:
             username = current_user.get_id()
-
             question = QUESTIONS_COLLECTION.find_one( {'short_description': form.short_description.data} )
             if question:
                 flash("This queston has already been asked", category='error')
@@ -21,9 +21,8 @@ def post_question():
             ques_obj = Question(username, form.short_description.data, form.long_description.data)
             quesID = ques_obj.post_question()
             flash("Your question has been successfully posted.", category='success')
-            #return redirect(url_for('empty'))
-            print(quesID)
-            return redirect(url_for('questions') + str(quesID) + '/')
+            #print(quesID)
+            return redirect(url_for('view_question', quesID=quesID))
         except KeyError:
             return redirect(url_for('login'))
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
@@ -31,12 +30,15 @@ def post_question():
 
 @app.route('/questions/<quesID>', methods=['GET', 'POST'])
 @login_required
-def questions(quesID):
-    print("Chutiya")
-    '''form = AnswerForm()
+def view_question(quesID):
+    form = AnswerForm()
     ques_obj = QuestionMethods(quesID)
     ques = ques_obj.get_question()
     ans_obj = AnswerMethods(quesID)
     ans = ans_obj.get_answers(quesID)
-    render_template('question.html', ques=ques, ans=ans, form=form)'''
-    render_template('login.html', form=form)
+    print(ans)
+    if request.method == 'POST':
+        username = current_user.get_id()
+        ans_obj = Answers(username, quesID, form.ans_text.data)
+        ansID = ans_obj.post_answer()
+    return render_template('question.html', question=ques, answers=ans, form=form)
