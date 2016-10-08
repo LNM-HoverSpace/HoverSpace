@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-        <h2>You are in homepage!</h2>
+		
+	{% for i in short_description %}	 
+		{{i}} </br>
+	{%endfor%}
+
 {% endblock %}
