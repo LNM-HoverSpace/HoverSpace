@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 	{{ question }}
-	{{}}
-{% blockquote %}
+	<p>Hey there</p>
+	{{ answers }}
+	<form action="" method="POST" name="form">
+     	{{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden'%}
+            <div class="form-group">
+            <label class="control-label" for={{field.name}}> {{ field.label }} </label>
+         	    {{ field }}
+        {% endfor %}
+        <button class="btn btn-default" type="submit">Submit</button>
+    </form>
+{% endblock %}

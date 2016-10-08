@@ -17,7 +17,7 @@ def login():
         user = USERS_COLLECTION.find_one({ "_id": form.username.data })
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
-            login_user(user_obj)
+            login_user(user_obj, remember=True)
             flash("Logged in successfully!", category='success')
             return redirect(request.args.get("next") or url_for("empty"))
         flash("Wrong username or password!", category='error')

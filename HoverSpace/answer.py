@@ -4,9 +4,9 @@ from flask_login import current_user
 from HoverSpace.models import ANSWERS_COLLECTION
 from HoverSpace.user import User
 from HoverSpace.forms import AnswerForm
-from HoverSpace.AnswerClass import Answer
+#from HoverSpace.AnswerClass import Answer
 
-@app.route('/question/<quesID>', methods=['GET', 'POST'])
+'''@app.route('/question/<quesID>', methods=['GET', 'POST'])
 def post_answer():
 	form = AnswerForm()
     ques_obj = QuestionMethods(quesID)
@@ -29,3 +29,4 @@ def post_answer():
 #@app.route('/questions/<>')
 #def view_question():
 #	pass
+'''
