@@ -6,10 +6,6 @@ from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm
 from bson.objectid import ObjectId
 
-'''@app.route('/')
-def home():
-    return render_template('home.html', short_description=[])'''
-
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
 def home():
@@ -62,11 +58,6 @@ def signup():
                 flash("SignUp successfull!", category='success')
                 return redirect(url_for('login'))
     return render_template('signup.html', title='HoverSpace | Signup', form=form)
-
-
-@app.route('/empty', methods=['GET', 'POST'])
-def empty():
-    return render_template('empty.html')
 
 @lm.user_loader
 def load_user(username):

@@ -1,17 +1,25 @@
-    {% extends "base.html" %}
+{% extends "base.html"%}
 {% block content %}
-
-	<form action="" method="POST" name="question">
+    <div class = "container">
+      <div class="jumbotron"> 
+        <div class="row"><div class="col-md-6 col-md-offset-3">
+      <form class="form-horizontal" action = "" method="post" role="question">
+      <div class = "form-group">
         {{ form.hidden_tag() }}
-        <div class="form-group">
-   	        <label class="control-label" for=short_description> {{ form.short_description.label }} </label>
-            {{ form.short_description(rows='5', cols='100') }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="control-group">
+          <label class="control-label" for="{{ field.name }}" > {{ field.label }}</label>
+          <div class="control">
+            {{ field(class_="form-control input-md")}}
+          </div>
         </div>
-        <br>
-       	<div class="form-group">
-            <label class="control-label" for=long_description> {{ form.long_description.label }} </label>
-            {{ form.long_description(rows='10', cols='100') }}
+        {% endfor %}
+        <div class="control-group">
+          <button type="submit" id="submit_btn" class="btn btn-default">Submit</button>
         </div>
-        <button class="btn btn-default" type="submit">Submit</button>
-	</form>
+      </div>
+      </form>
+    </div>
+    </div>
+    </div>
 {% endblock %}
