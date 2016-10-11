@@ -21,4 +21,4 @@ class QuestionForm(FlaskForm):
 
 
 class AnswerForm(FlaskForm):
-	ans_text = TextAreaField(description='Write your answer here', validators=[DataRequired(), Length(max=100)])
+	ans_text = TextAreaField('Write your answer here: ', description='Write your answer here', validators=[DataRequired(), Length(max=1000)])
