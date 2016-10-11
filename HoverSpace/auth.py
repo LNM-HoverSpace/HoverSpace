@@ -1,27 +1,32 @@
 from HoverSpace.application import app, lm
+import pymongo
 from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required
 from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm
 from bson.objectid import ObjectId
+from HoverSpace.question import view_question
 
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
 def home():
-    question = QUESTIONS_COLLECTION.find()
-    answer = list()
-    for record in question:
+    questions = QUESTIONS_COLLECTION.find().sort('timestamp', pymongo.ASCENDING)
+    feed = list()
+    for record in questions:
         try:
-            for ansID in record['ansID']:
-                for ans in ANSWERS_COLLECTION.find({'_id': ObjectId(ansID)}):
-                    answer.append(record['short_description'])
-                    answer.append(record['long_description'])
-                    answer.append(ans['ansText'])
-                break
+            story = {
+                'short_description' : record['short_description'],
+                'long_description': record['long_description'],
+                'ques_url' : url_for('view_question', quesID=str(record['_id']))
+            }
+            if record['accepted_ans']:
+                story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(accepted_ans)})
+            feed.append(story)
         except KeyError:
             pass
-    return render_template('home.html', title='HoverSpace | Home', short_description=answer)
+    print(feed)
+    return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
