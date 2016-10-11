@@ -25,7 +25,6 @@ def home():
             feed.append(story)
         except KeyError:
             pass
-    print(feed)
     return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
 @app.route('/login/', methods=['GET', 'POST'])
