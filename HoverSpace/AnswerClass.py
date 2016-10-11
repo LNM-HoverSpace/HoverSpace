@@ -17,7 +17,7 @@ class Answers():
         ansID = ANSWERS_COLLECTION.insert_one({
                     'posetdBy': self.posetdBy, 'quesID': self.quesID,
                     'ansText': self.ansText, 'timestamp': self.timestamp,
-                    'quesID': self.quesID}).inserted_id
+                    'quesID': self.quesID, 'votes': 0}).inserted_id
 
         usr = User(self.posetdBy)
         usr.update_answers(str(ansID))
@@ -38,3 +38,8 @@ class AnswerMethods():
         except TypeError:
             answers = []
         return answers
+
+    def update_votes(self, username, vote=[1, -1]):
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
+        usr = User(username)
+        usr.update_votes(vote)

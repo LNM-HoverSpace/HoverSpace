@@ -27,17 +27,18 @@ def post_question():
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
 
 
-@app.route('/view_question/<quesID>', methods=['GET', 'POST'])
+@app.route('/question/<quesID>', methods=['GET', 'POST'])
 @login_required
 def view_question(quesID):
     form = AnswerForm()
-    ques_obj = QuestionMethods(quesID)
-    ques = ques_obj.get_question()
-    #ansmet_obj = AnswerMethods(quesID)
-    #ans = ansmet_obj.get_answers(quesID)
-
     if request.method == 'POST':
         username = current_user.get_id()
         ans_obj = Answers(username, quesID, form.ans_text.data)
         ansID = ans_obj.post_answer()
-    return render_template('question.html', question=ques, form=form)
+    
+    ques_obj = QuestionMethods(quesID)
+    ques = ques_obj.get_question()
+    ansmet_obj = AnswerMethods(quesID)
+    ans = ansmet_obj.get_answers(quesID)
+
+    return render_template('question.html', question=ques, answers=ans, form=form)
