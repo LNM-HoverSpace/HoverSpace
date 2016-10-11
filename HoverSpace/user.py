@@ -42,7 +42,7 @@ class User(UserMixin):
     def update_votes(self, vote=[1, -1]):
         USERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.username)}, {'$inc' : {'votes': vote}})
 
-    def update_bookmarks(self, quesID):
+    def set_bookmarks(self, quesID):
         USERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.username)}, {'$addToSet' : {'bookmarks': quesID}})
 
 
