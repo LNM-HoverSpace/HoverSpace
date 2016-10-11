@@ -2,30 +2,38 @@
 {% block content %}
     <div class = "container">
       <div class="jumbotron">
-      <form action = "" method="post" name="question">
-        <div class = "form-group">
-          <label class = "control-label" for = "short_description">
-            <label for = "short_description">Short Description : {{ question['short_description'] }}</label>
-          </label>
-          <br>
-          <label class = "control-label" for = "short_description">
-            <label for = "short_description">Long Description : {{ question['long_description'] }}</label>
-          </label>
-        </div>
-        <div class = "form-group">
-          <label class="control-label" for ="ans_text">
-            <label for="answer">Answer:</label>
-          </label>
-          <textarea id="ans_text" cols="100" name="answer" rows="5"></textarea>
-        </div>
-        <div>
-            <button type = "Submit" id = "submit_btn" class = "btn btn-default">Submit</a>
-        </div>
+        <label for="short_description">Short Description : {{ question['short_description'] }}</label>
         <br>
-        <label class = "control-label" for = "postedBy">
-            <label for = "postedBy"> Posted By : {{ question['posetdBy'] }}</label>
-          </label>
+        <label for="short_description">Long Description : {{ question['long_description'] }}</label>
+        <br>
+        <label for="postedBy"> Posted By : {{ question['posetdBy'] }}</label>
+        <br>
+        {% if answers %}
+          <label for="answers"> Answers: </label>
+          <br>
+          {% for answer in answers %}
+            {{ answer }}
+            <br>
+          {% endfor %}
+          <br>
+        {% endif %}
+        <form action="" method="POST" name="question">
+          <div class = "form-group">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+              <div class="control-group">
+                <label class="control-label" for="{{ field.name }}" > {{ field.label }}</label>
+                <div class="control">
+                  {{ field(class_="form-control input-md") }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="control-group">
+            <button type="Submit" id="submit_btn" class="btn btn-default">Submit</button>
+          </div>
         </form>
       </div> 
     </div>
-{% endblock %}
+
+  {% endblock %}

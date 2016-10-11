@@ -3,23 +3,20 @@
     <div class = "container">
       <div class="jumbotron">
 
-      <form > 
-      {% for i in short_description %}
+      {% for i in feed %}
         <div class = "form-group">
           <label class = "control-label" for = "short_description">
-            <label for = "short_description">Short Description : {{ i }}</label>
+            <label for = "short_description">Short Description : {{ i['short_description'] }}</label>
           </label>
           <br>
-          <label class = "control-label" for = "short_description">
-            <label for = "short_description">Long Description : {{ i }}</label>
+          <label class = "control-label" for = "long_description">
+            <label for = "short_description">Long Description : {{ i['long_description'] }}</label>
           </label>
-        </div>
-        <br>
-        <label class = "control-label" for = "postedBy">
-            <label for = "asn_text"> Answer: {{ i }}</label>
+          <br>
+          <label class = "control-label" for = "answer">
+            <label for = "asn_text"> Answer: {{ i['answer'] }}</label>
         </label>
       {% endfor %}
-      </form>
       </div>
     </div>
   {% endblock %}
