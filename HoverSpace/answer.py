@@ -27,6 +27,6 @@ def post_answer():
 
 
 #@app.route('/questions/<>')
-#def view_question():
+#def viewQuestion():
 #	pass
 '''

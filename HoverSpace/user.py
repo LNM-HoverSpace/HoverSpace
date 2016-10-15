@@ -16,7 +16,7 @@ class User(UserMixin):
                 'firstname': self.firstname, 'lastname': self.lastname,
                 'password': generate_password_hash(self.password),
                 'quesPosted': [], 'ansPosted': [], 'bookmarks': [],
-                'votes': 0})
+                'karma': 0, 'voted_ques': [], 'voted_ans': [] })
 
     @property
     def is_authenticated(self):
@@ -39,12 +39,39 @@ class User(UserMixin):
     def update_answers(self, ansID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'ansPosted': ansID}})
 
-    def update_votes(self, vote=[1, -1]):
-        USERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.username)}, {'$inc' : {'votes': vote}})
+    def update_karma(self, karma=[1, -1]):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$inc': {'karma': karma}})
 
     def set_bookmarks(self, quesID):
-        USERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.username)}, {'$addToSet' : {'bookmarks': quesID}})
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'bookmarks': quesID}})
 
+    def vote_ques(self, quesID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
+
+    def vote_ans(self, ansID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ans': {'ansID': ansID, 'vote': vote}}})
+
+    def alreadyVotedQues(self, quesID):
+        try:
+            voted_ques = list()
+            voted_ques = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ques']
+            for ques in voted_ques:
+                if ques['quesID'] == quesID:
+                    return True
+            return False
+        except:
+            return False
+
+    def alreadyVotedAns(self, ansID):
+        try:
+            voted_ans = list()
+            voted_ans = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ans']
+            for ans in voted_ans:
+                if ans['ansID'] == ansID:
+                    return True
+            return False
+        except:
+            return False
 
     '''def set_password(self, password):
         self.password = generate_password_hash(password)
