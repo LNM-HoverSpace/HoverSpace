@@ -9,7 +9,7 @@ from HoverSpace.user import User
 
 @app.route('/post-a-question/', methods=['GET', 'POST'])
 @login_required
-def post_question():
+def postQuestion():
     form = QuestionForm()
     if request.method == 'POST':
         try:
@@ -19,17 +19,17 @@ def post_question():
                 flash("This queston has already been asked", category='error')
                 return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
             ques_obj = Question(username, form.short_description.data, form.long_description.data)
-            quesID = ques_obj.post_question()
+            quesID = ques_obj.postQuestion()
             flash("Your question has been successfully posted.", category='success')
-            return redirect(url_for('view_question', quesID=quesID))
+            return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
             return redirect(url_for('login'))
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
 
 
-@app.route('/question/<quesID>', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/', methods=['GET', 'POST'])
 @login_required
-def view_question(quesID):
+def viewQuestion(quesID):
     form = AnswerForm()
     if request.method == 'POST':
         username = current_user.get_id()
@@ -37,8 +37,11 @@ def view_question(quesID):
         ansID = ans_obj.post_answer()
     
     ques_obj = QuestionMethods(quesID)
-    ques = ques_obj.get_question()
+    ques = ques_obj.getQuestion()
     ansmet_obj = AnswerMethods(quesID)
     ans = ansmet_obj.get_answers(quesID)
-
     return render_template('question.html', question=ques, answers=ans, form=form)
+
+@app.route('/question/<quesID>/vote/', methods=['GET', 'POST'])
+def updateVotes(quesID):
+    print("py working")

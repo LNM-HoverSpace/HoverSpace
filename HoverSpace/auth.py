@@ -6,7 +6,7 @@ from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_CO
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm
 from bson.objectid import ObjectId
-from HoverSpace.question import view_question
+from HoverSpace.question import viewQuestion
 
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
@@ -18,7 +18,7 @@ def home():
             story = {
                 'short_description' : record['short_description'],
                 'long_description': record['long_description'],
-                'ques_url' : url_for('view_question', quesID=str(record['_id']))
+                'ques_url' : url_for('viewQuestion', quesID=str(record['_id']))
             }
             if record['accepted_ans']:
                 story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(accepted_ans)})
