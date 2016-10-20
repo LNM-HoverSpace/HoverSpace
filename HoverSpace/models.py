@@ -1,8 +1,11 @@
+import os
 from pymongo import MongoClient
 
-DB_NAME = 'hoverspace'
-DATABASE = MongoClient()[DB_NAME]
+DATABASE_URI = os.getenv('MONGOLAB_URI')
 
-USERS_COLLECTION = DATABASE.users
-QUESTIONS_COLLECTION = DATABASE.questions
-ANSWERS_COLLECTION = DATABASE.answers
+DATABASE = MongoClient(DATABASE_URI)
+db = DATABASE.get_default_database()
+
+USERS_COLLECTION = db.users
+QUESTIONS_COLLECTION = db.questions
+ANSWERS_COLLECTION = db.answers
