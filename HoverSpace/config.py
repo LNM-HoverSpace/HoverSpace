@@ -6,7 +6,10 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = os.urandom(24)
+    '''
+    Don't set SECRET_KEY = os.urandom(24) because every worker will have a different secret key
+    '''
+    SECRET_KEY = 'e32ejn389sd382ehuer8rn84'
     WTF_CSRF_ENABLED = True
 
 
