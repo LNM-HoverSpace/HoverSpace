@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 DATABASE_URI = os.getenv('MONGOLAB_URI') or 'hoverspace'
 
-DATABASE = MongoClient(DATABASE_URI)
+DATABASE = MongoClient(DATABASE_URI, connect=False)
 db = DATABASE['hoverspace']
 
 USERS_COLLECTION = db.users
