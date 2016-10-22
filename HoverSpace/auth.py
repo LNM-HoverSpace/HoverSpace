@@ -9,7 +9,7 @@ from bson.objectid import ObjectId
 from HoverSpace.question import viewQuestion
 
 @app.route('/')
-@app.route('/home/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     questions = QUESTIONS_COLLECTION.find().sort('timestamp', pymongo.ASCENDING)
     feed = list()
@@ -27,7 +27,7 @@ def home():
             pass
     return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -40,12 +40,12 @@ def login():
         flash("Wrong username or password!", category='error')
     return render_template('login.html', title='HoverSpace | Login', form=form)
 
-@app.route('/logout/')
+@app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/signup/', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if request.method == 'POST' and form.validate_on_submit():
