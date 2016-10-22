@@ -2,7 +2,7 @@ import os
 import unittest
 
 from HoverSpace.application import app
-from HoverSpace.models import DATABASE as db
+#from HoverSpace.models import DATABASE as db
 from pymongo import MongoClient
 
 class TestCase(unittest.TestCase):
@@ -10,11 +10,12 @@ class TestCase(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
-        app.config['MONGOLAB_URI']='mongodb://@ds061246.mlab.com:61246/testing'
+        #app.config['MONGOLAB_URI']='mongodb://@ds061246.mlab.com:61246/testing'
         self.app = app.test_client()
 
     def tearDown(self):
-        db.drop_database('hoverspace')
+        #db.drop_database('hoverspace')
+        pass
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
