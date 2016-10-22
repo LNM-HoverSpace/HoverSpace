@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
         self.app = app.test_client()
 
     def tearDown(self):
-        db.drop_database(db.get_default_database())
+        db.drop_database('hoverspace')
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
