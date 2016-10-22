@@ -1,22 +1,23 @@
 {% extends "base.html"%}
 {% block content %}
-    <div class = "container">
-      <div class="jumbotron">
-
       {% for i in feed %}
-        <div class = "form-group">
+      <div id = "feed_div" class = "container">
+      <div  class = "form-group">
+      <br>
           <label class = "control-label" for = "short_description">
-            <label for = "short_description">Short Description : {{ i['short_description'] }}</label>
+            <a href="https://www.google.com"><label for = "short_description">{{ i['short_description'] }}</label></a>
           </label>
           <br>
-          <label class = "control-label" for = "long_description">
-            <label for = "short_description">Long Description : {{ i['long_description'] }}</label>
-          </label>
+          
           <br>
           <label class = "control-label" for = "answer">
             <label for = "asn_text"> Answer: {{ i['answer'] }}</label>
+              <i class="fa fa-bookmark" aria-hidden="true" fa-3x></i>
         </label>
+
+        <br>
+        </div>
+        </div>
+        <br>
       {% endfor %}
-      </div>
-    </div>
   {% endblock %}
