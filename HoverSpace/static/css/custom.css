@@ -2,7 +2,8 @@ body{
 	font-size: 2;
 	padding-top: 100px;
 	padding-bottom: 20px;
-	background-color: #7A77BA
+	background-color:#ffffff
+	background-image:url("static/img/back.jpg");
 }
 #footer{
 	max-height: 2px;
@@ -21,11 +22,13 @@ body{
 #header{
 
 	margin-bottom: 1px;
+	background color: #ffffff;
 }
 #logo{
 	padding-bottom: 20px;
 	text-align: center;
-	margin-top: -13px;
+	margin-top: 1px;
+	margin-bottom: -4px;
 	margin-left: -70px;
 }
 #nav-elements{
@@ -63,15 +66,14 @@ body{
 }
 #login_btn{
 	padding-bottom: -100px;
-	margin-left: 60px;
+	text-align: center;
 	height: 20px;
-	margin-top: 10px;
-	background-color: #7A77BA;
-	line-height: 3px;
+	
+	background-color: #6bc1ff;
+	
 	box-sizing:border-box;
 	color: #ffffff
 	position:absolute;
-	right: 40px;
 }
 #email{
 	margin-top: 10px;
@@ -120,4 +122,127 @@ body{
 	line-height: 0px;
 	box-sizing:border-box;
 	color: #ffffff
+}
+#login_url:link, #login_url:visited {
+    background-color: #6bc1ff;
+    color: white;
+    padding: 14px 25px 0px -4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+#login_url:hover, #login_url:active {
+    background-color: #87cdff;
+}
+#signup_url:link, #signup_url:visited {
+    background-color: #6bc1ff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 5px;
+    margin-right: -10px;
+}
+#signup_url:hover, #signup_url:active {
+    background-color: #87cdff;
+}
+#text_clr{	
+}
+#login_form{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#post_ques:link, #post_ques:visited {
+    background-color: #6bc1ff;
+    color: white;
+    padding: 14px 25px 0px -4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+#post_ques:hover, #post_ques:active {
+    background-color: #87cdff;
+}
+#logout_url:link, #logout_url:visited {
+    background-color: #6bc1ff;
+    color: white;
+    padding: 14px 25px 0px -4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: -10px;
+    margin-left: 5px;
+}
+#logout_url:hover, #logout_url:active {
+    background-color: #87cdff;
+}
+#signup_form{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#login_btn{
+    background-color: #6bc1ff;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+#signup_btn{
+    background-color: #6bc1ff;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+   	cursor: pointer;
+}
+#post_cont{
+	border-size:thin;
+	border-style:solid;
+	border-color:#6bc1ff;
+	border-radius: 5px;
+}
+#submit_btn{
+	background-color: #6bc1ff;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+#feed_div{
+	width: 1200px;
+	height: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;
+}
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+	
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+	
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
 }

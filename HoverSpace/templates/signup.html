@@ -2,11 +2,11 @@
 {% block content %}
 
 <div class="container">
-  <div class="jumbotron">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
+      <div  id = "signup_form" class="col-md-3 col-md-offset-4" style="margin-left: 428px;">
         <form class="form-horizontal" action="" method="POST" role="form">
           <div id="legend">
+          <br>
             <legend class="">Register</legend>
           </div>
           {{ form.hidden_tag() }}
@@ -19,12 +19,13 @@
           </div>
           {% endfor %}
           <div class="control-group">
+          <br>
             <button type="submit" id="signup_btn" class="btn btn-default">Register</button>
           </div>
+          <br>
         </form>
       </div>
     </div>
-  </div>
 </div>
 
 {% endblock %}
