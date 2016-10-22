@@ -10,7 +10,6 @@ class TestCase(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
-        app.config['MONGOLAB_URI'] = 'mongodb://@ds061246.mlab.com:61246/testing'
         self.app = app.test_client()
 
     def tearDown(self):
