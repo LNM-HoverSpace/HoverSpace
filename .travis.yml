@@ -1,4 +1,9 @@
 language: python
+
+env:
+    global:
+        MONGOLAB_URI='hoverspace'
+
 python:
     - "3.2"
     - "3.3"
