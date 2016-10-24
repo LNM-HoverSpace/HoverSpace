@@ -1,18 +1,21 @@
 {% extends "base.html"%}
 {% block content %}
-    <div class = "container">
-      <div class="jumbotron">
-        <label for="short_description">Short Description : {{ question['short_description'] }}</label>
+  <div id = "ques_head" class="container">
+        <img id = "ques_link_avatar" src="/static/img/avatar.png">
+        <label id = "short" for="short_description">Short Description : {{ question['short_description'] }}</label>
         <br>
-        <label for="short_description">Long Description : {{ question['long_description'] }}</label>
+        <label id ="long" for="long_description">Long Description : {{ question['long_description'] }}</label>
         <br>
-        <label for="postedBy"> Posted By : {{ question['posetdBy'] }}</label>
         <br>
+  </div>
+  <br>
+  <br>
+    <div id = "Ques_ans_div" class = "container">
         {% if answers %}
           <label for="answers"> Answers: </label>
           <br>
           {% for answer in answers %}
-            {{ answer }}
+            {{ answer ['ansText'] }} Posted by : {{ answer ['postedBy'] }}
             <br>
           {% endfor %}
           <br>
