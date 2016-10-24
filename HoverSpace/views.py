@@ -3,8 +3,8 @@ import pymongo
 from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
 from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
-from HoverSpace.QuestionClass import Question, QuestionMethods
-from HoverSpace.AnswerClass import Answers, AnswerMethods
+from HoverSpace.questions import Question, QuestionMethods
+from HoverSpace.answers import Answers, AnswerMethods
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm
 from bson.objectid import ObjectId
@@ -74,7 +74,7 @@ def postQuestion():
             username = current_user.get_id()
             question = QUESTIONS_COLLECTION.find_one( {'short_description': form.short_description.data} )
             if question:
-                flash("This queston has already been asked", category='error')
+                flash("This question has already been asked", category='error')
                 return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
             ques_obj = Question(username, form.short_description.data, form.long_description.data)
             quesID = ques_obj.postQuestion()
