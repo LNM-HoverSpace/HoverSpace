@@ -1,20 +1,26 @@
 {% extends "base.html"%}
 {% block content %}
       {% for i in feed %}
+      <div id= "vote_div" class="container">
+        <label class="control-label" for = "upvotes">
+          <label for="upvotes">{{ i['upvotes'] }}</label>
+            <div class="vote_roundrect">
+                 <div class="increment_up"></div>
+                    <div class="increment_down"></div>
+            </div>
+        </label>
+      </div>
       <div id = "feed_div" class = "container">
       <div  class = "form-group">
       <br>
+        <img id="avatar" src="/static/img/avatar.png">
           <label class = "control-label" for = "short_description">
-            <a href="https://www.google.com"><label for = "short_description">{{ i['short_description'] }}</label></a>
+            <a id = "ques_url" href="{{ i['ques_url'] }}"><label for = "short_description">{{ i['short_description'] }}</label></a>
           </label>
           <br>
-          
           <br>
-          <label class = "control-label" for = "answer">
-            <label for = "asn_text"> Answer: {{ i['answer'] }}</label>
-              <i class="fa fa-bookmark" aria-hidden="true" fa-3x></i>
-        </label>
-
+          <a id="answers" href="{{ i['ques_url'] }}" title="Answers_of_question">Answers</a>
+        <button type = "submit" id="bookmark-this" title="Bookmark This Page">Bookmark</button>
         <br>
         </div>
         </div>

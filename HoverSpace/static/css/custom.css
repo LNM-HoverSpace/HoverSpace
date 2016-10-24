@@ -1,9 +1,11 @@
 body{
+	background: url(/static/img/back.jpg);
 	font-size: 2;
 	padding-top: 100px;
 	padding-bottom: 20px;
 	background-color:#ffffff
 	background-image:url("static/img/back.jpg");
+	background-size: cover;
 }
 #footer{
 	max-height: 2px;
@@ -140,7 +142,7 @@ body{
     text-align: center;
     text-decoration: none;
     margin-left: 5px;
-    margin-right: -10px;
+    margin-right: 25px;
 }
 #signup_url:hover, #signup_url:active {
     background-color: #87cdff;
@@ -149,6 +151,8 @@ body{
 }
 #login_form{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 #post_ques:link, #post_ques:visited {
     background-color: #6bc1ff;
@@ -168,7 +172,7 @@ body{
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin-right: -10px;
+    margin-right: 25px;
     margin-left: 5px;
 }
 #logout_url:hover, #logout_url:active {
@@ -176,6 +180,8 @@ body{
 }
 #signup_form{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 #login_btn{
     background-color: #6bc1ff;
@@ -202,10 +208,9 @@ body{
    	cursor: pointer;
 }
 #post_cont{
-	border-size:thin;
-	border-style:solid;
-	border-color:#6bc1ff;
-	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;
+  background-color: #ffffff;
 }
 #submit_btn{
 	background-color: #6bc1ff;
@@ -220,10 +225,9 @@ body{
     cursor: pointer;
 }
 #feed_div{
-	width: 1200px;
-	height: 50%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 15px;
+  background-color: #ffffff;
 }
 img.bg {
   /* Set rules to fill background */
@@ -245,4 +249,112 @@ img.bg {
     left: 50%;
     margin-left: -512px;   /* 50% */
   }
+}
+#vote_div{
+	width: 100px;
+	float: left;
+	height: 50%;
+	margin-left: -100px;
+}
+#bookmark-this {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+#bookmark-this:hover {
+  background: #ec971f;
+  border: 1px solid #d58512;
+  text-decoration: none;
+}
+
+#bookmark-this:active {
+  border: 1px solid #d58512;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #ec971f;
+}
+#answers {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #59ff59;
+  color: #fff;
+  border: 1px solid #00cd00;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  margin-left:110px;
+}
+
+#answers:hover {
+  background: #0aff0a;
+  border: 1px solid #00cd00;
+  text-decoration: none;
+}
+
+#answers:active {
+  border: 1px solid #00cd00;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #0aff0a;
+}
+#ques_url:link{
+	margin-left: 15px;
+	color: #7a7a7a;
+	position: absolute;
+}
+#ques_url:hover{
+	margin-left: 15px;
+	color: #333333;
+}
+#ques_url:active{	
+	margin-left: 15px;
+	color: #0a0a0a;
+	pointer:cursor;
+}
+#Ques_ans_div{
+	background:#ffffff;
+}
+#avatar{
+	margin-top: 20px;
+	margin-bottom: -30px;
+	line-height: 70%;
+	width: 8%;
+}
+#ques_head{
+	background-color: #ffffff;
+	width: 1327px;
+	margin-left: -100px;
+}
+#short{
+	padding-left: 94px;
+}
+#long{
+	left: 50px;
+	padding-left: 200px;
+	width: 420px;
+}
+#ques_link_avatar{
+	margin-top: 10px;
+	width: 8%	
+}
+#postedby{
+	margin-top: -50px;
 }
