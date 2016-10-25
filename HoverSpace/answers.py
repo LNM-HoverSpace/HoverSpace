@@ -1,7 +1,7 @@
 import datetime
 from HoverSpace.models import ANSWERS_COLLECTION, QUESTIONS_COLLECTION
 from HoverSpace.user import User
-from HoverSpace.QuestionClass import QuestionMethods
+from HoverSpace.questions import QuestionMethods
 from bson.objectid import ObjectId
 
 class Answers():
