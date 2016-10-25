@@ -332,7 +332,9 @@ img.bg {
 #Ques_ans_div{
 	background:#ffffff;
 		width: 1000px;
-		margin-left:8	0px;	
+		margin-left:80px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;	
 }
 #avatar{
 	margin-top: 20px;
@@ -342,7 +344,7 @@ img.bg {
 }
 #ques_head{
 	background-color: #ffffff;
-	width: 1327px;
+	width: 1320px;
 	margin-left: -100px;
 }
 #short{
@@ -371,6 +373,12 @@ img.bg {
 	padding-left: 50px;
 }
 #posted_label{
-	margin-left: 30px;
+	margin-left: 40px;
 	padding-top: 10px;
+}
+#ques_posted_by{
+	margin-left: 40px;	
+}
+#ans_text{
+	height: 100px;
 }
