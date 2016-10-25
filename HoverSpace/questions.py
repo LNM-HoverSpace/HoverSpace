@@ -15,7 +15,8 @@ class Question():
         quesID = QUESTIONS_COLLECTION.insert_one({
                     'postedBy': self.postedBy, 'short_description': self.short_description,
                     'long_description': self.long_description, 'timestamp': self.timestamp,
-                    'ansID': [], 'votes' : 0, 'accepted_ans': None, 'flag': False}).inserted_id
+                    'ansID': [], 'commentID': [], 'votes' : 0, 'accepted_ans': None, 'flag': False
+                }).inserted_id
         usr = User(self.postedBy)
         usr.update_questions(str(quesID))
         return quesID
@@ -35,6 +36,9 @@ class QuestionMethods():
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$inc': {'votes': vote}})
         usr = User(username)
         usr.update_karma(vote)
+
+    def update_comments(self, commentID):
+        QUESTION_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'commentID': commentID}})
 
     def setAcceptedAns(self, ansID, username):
         usr = (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['postedBy']
