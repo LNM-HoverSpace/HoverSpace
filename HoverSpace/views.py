@@ -98,7 +98,6 @@ def postQuestion():
 
 
 @app.route('/question/<quesID>/', methods=['GET', 'POST'])
-@login_required
 def viewQuestion(quesID):
     form = AnswerForm()
     if request.method == 'POST':
