@@ -14,7 +14,7 @@ from bson.objectid import ObjectId
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
 def home():
-    questions = QUESTIONS_COLLECTION.find().sort('timestamp', pymongo.ASCENDING)
+    questions = QUESTIONS_COLLECTION.find().sort('timestamp', pymongo.DESCENDING)
     feed = list()
     for record in questions:
         try:
