@@ -331,6 +331,10 @@ img.bg {
 }
 #Ques_ans_div{
 	background:#ffffff;
+		width: 1000px;
+		margin-left:80px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;	
 }
 #avatar{
 	margin-top: 20px;
@@ -340,11 +344,11 @@ img.bg {
 }
 #ques_head{
 	background-color: #ffffff;
-	width: 1327px;
+	width: 1320px;
 	margin-left: -100px;
 }
 #short{
-	padding-left: 94px;
+	padding-left: 72px;
 }
 #long{
 	left: 50px;
@@ -352,9 +356,29 @@ img.bg {
 	width: 420px;
 }
 #ques_link_avatar{
-	margin-top: 10px;
-	width: 8%	
+	margin-top: 20px;
+	width: 8%;
+	border-radius: 200px;
+	margin-left: 20px;
 }
 #postedby{
 	margin-top: -50px;
+}
+#answer_label{
+	margin-left: 200px;
+}
+#answer_avatar{
+	width: 8%;
+	border-radius: 100px;
+	padding-left: 50px;
+}
+#posted_label{
+	margin-left: 40px;
+	padding-top: 10px;
+}
+#ques_posted_by{
+	margin-left: 40px;	
+}
+#ans_text{
+	height: 100px;
 }

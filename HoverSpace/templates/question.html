@@ -2,10 +2,11 @@
 {% block content %}
   <div id = "ques_head" class="container">
         <img id = "ques_link_avatar" src="/static/img/avatar.png">
-        <label id = "short" for="short_description">Short Description : {{ question['short_description'] }}</label>
+        <label id = "short" for="short_description">{{ question['short_description'] }}</label>
         <br>
         <label id ="long" for="long_description">Long Description : {{ question['long_description'] }}</label>
         <br>
+          <label id = "ques_posted_by">{{ question['postedBy'] }}</label>
         <br>
         <script type="text/javascript" src="../../static/js/votes.js"></script>
         <div class="vote-buttons">
@@ -32,19 +33,22 @@
 
         </script>
   </div>
-  <br>
-  <br>
+  <br>  
+  {% for answer in answers %}
     <div id = "Ques_ans_div" class = "container">
-        {% if answers %}
-          <label for="answers"> Answers: </label>
           <br>
-          {% for answer in answers %}
-            {{ answer ['ansText'] }} Posted by : {{ answer ['postedBy'] }}
+          <br>
+          <img id = "answer_avatar" src="/static/img/avatar.png">
+            <label id = "answer_label" for = "answer">{{ answer['ansText'] }}</label>
+            <br>
+            <label id = "posted_label" for="postedby"> {{ answer['postedBy'] }}</label>
+            <br>
+            <br>    
+            </div>
             <br>
           {% endfor %}
           <br>
-        {% endif %}
-        <form action="" method="POST" name="question">
+                <form action="" method="POST" name="question">
           <div class = "form-group">
             {{ form.hidden_tag() }}
             {% for field in form if field.widget.input_type != 'hidden' %}
