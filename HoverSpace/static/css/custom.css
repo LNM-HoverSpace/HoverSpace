@@ -331,6 +331,8 @@ img.bg {
 }
 #Ques_ans_div{
 	background:#ffffff;
+		width: 1000px;
+		margin-left:8	0px;	
 }
 #avatar{
 	margin-top: 20px;
@@ -344,7 +346,7 @@ img.bg {
 	margin-left: -100px;
 }
 #short{
-	padding-left: 94px;
+	padding-left: 72px;
 }
 #long{
 	left: 50px;
@@ -352,9 +354,23 @@ img.bg {
 	width: 420px;
 }
 #ques_link_avatar{
-	margin-top: 10px;
-	width: 8%	
+	margin-top: 20px;
+	width: 8%;
+	border-radius: 200px;
+	margin-left: 20px;
 }
 #postedby{
 	margin-top: -50px;
+}
+#answer_label{
+	margin-left: 200px;
+}
+#answer_avatar{
+	width: 8%;
+	border-radius: 100px;
+	padding-left: 50px;
+}
+#posted_label{
+	margin-left: 30px;
+	padding-top: 10px;
 }
