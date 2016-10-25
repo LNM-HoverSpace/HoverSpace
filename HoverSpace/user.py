@@ -16,7 +16,7 @@ class User(UserMixin):
                 'firstname': self.firstname, 'lastname': self.lastname,
                 'password': generate_password_hash(self.password),
                 'quesPosted': [], 'ansPosted': [], 'bookmarks': [],
-                'karma': 0, 'voted_ques': [], 'voted_ans': [] })
+                'karma': 0, 'voted_ques': [], 'voted_ans': [], 'commentPosted': [] })
 
     @property
     def is_authenticated(self):
@@ -35,6 +35,9 @@ class User(UserMixin):
 
     def update_questions(self, quesID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'quesPosted': quesID}})
+
+    def update_comments(self, commentID):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'commentPosted': commentID}})
 
     def update_answers(self, ansID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'ansPosted': ansID}})
