@@ -1,6 +1,5 @@
 from HoverSpace.application import app, lm
 import pymongo
-import json
 from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
 from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
@@ -101,28 +100,9 @@ def viewQuestion(quesID):
     ans = ansmet_obj.get_answers(quesID)
     return render_template('question.html', question=ques, answers=ans, form=form)
 
-
 @app.route('/question/<quesID>/vote/', methods=['GET', 'POST'])
-@login_required
 def updateVotes(quesID):
-    rd = (request.data).decode('utf-8')
-    data = json.loads(rd)
-    voteType = data['voteType']
-    usr = User(current_user.get_id())
-    #if usr.
-    return json.dumps({'status': 'ok'})
-
-
-@app.route('/question/<quesID>/bookmark/', methods=['GET', 'POST'])
-@login_required
-def setBookmark(quesID):
-    usr = User(current_user.get_id())
-    fl = usr.setBookmark(quesID)
-    #print(fl)
-    if fl:
-        return json.dumps({'status': 'true', 'message': 'This question has been successfully bookmarked'})
-    else:
-        return json.dumps({'status': 'false', 'message': 'Bookmark removed'})
+    print("py working")
 
 
 @lm.user_loader

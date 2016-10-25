@@ -8,30 +8,6 @@
         <br>
           <label id = "ques_posted_by">{{ question['postedBy'] }}</label>
         <br>
-        <script type="text/javascript" src="../../static/js/votes.js"></script>
-        <div class="vote-buttons">
-          <input type="button" class="vote-up" value="Upvote">
-          <input type="button" class="vote-down" value="Downvote">
-        </div>
-        <div class="bookmark-button">
-          <input type="button" class="bookmark" value="Bookmark">
-        </div>
-        <script type="text/javascript">
-          var quesID = "{{ question['_id'] }}";
-          var type = new String("");
-          $('.vote-up').on('click', function(){
-            updateVotes(quesID, type="up");
-          });
-
-          $('.vote-down').on('click', function(){
-            updateVotes(quesID, type="down");
-          });
-
-          $('.bookmark').on('click', function(){
-            setBookmark(quesID);
-          });
-
-        </script>
   </div>
   <br>  
   {% for answer in answers %}
