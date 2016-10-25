@@ -30,6 +30,17 @@ def home():
             pass
     return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
+'''@app.route('/profile/', methods=['GET'])
+@login_required
+def profile():
+    user = USERS_COLLECTION.find_one({'_id': current_user.get_id()})
+    ques, ans = [], []
+    for q_obj in user['quesPosted']:
+        q = QuestionMethods(q_obj)
+        ques.append(q.getQuestion())
+    return redirect(url_for('home'))
+    #return render_template('profile.html', title='HoverSpace | Profile', user=user)'''
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
