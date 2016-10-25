@@ -42,14 +42,8 @@ class User(UserMixin):
     def update_karma(self, karma=[1, -1]):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$inc': {'karma': karma}})
 
-    def setBookmark(self, quesID):
-        bookmarked = (USERS_COLLECTION.find_one({'_id': self.username}))['bookmarks']
-        if quesID in bookmarked:
-            USERS_COLLECTION.update_one({'_id': self.username}, {'$pull': {'bookmarks': quesID}})
-            return False
-        else:    
-            USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'bookmarks': quesID}})
-            return True
+    def set_bookmarks(self, quesID):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'bookmarks': quesID}})
 
     def vote_ques(self, quesID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
@@ -57,29 +51,14 @@ class User(UserMixin):
     def vote_ans(self, ansID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ans': {'ansID': ansID, 'vote': vote}}})
 
-    def removeQuesVote(self, quesID):
-        USERS_COLLECTION.update_one({'_id': self.username}, {'$pull': {'voted_ques': {'quesID': quesID}}})
-
-    def alreadyVotedQues(self, quesID, voteType):
+    def alreadyVotedQues(self, quesID):
         try:
-            fl = False
             voted_ques = list()
             voted_ques = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ques']
             for ques in voted_ques:
                 if ques['quesID'] == quesID:
-                    if voteType == 'up':
-                        if ques['vote'] == 1 or ques['vote'] == -1:
-                            self.removeQuesVote(quesID)
-                    if voteType == 'down':
-                        if ques['vote'] == 1 or ques['vote'] == -1:
-                            self.removeQuesVote(quesID)
-                    fl = True
-            if not fl:
-                if voteType == "up":
-                    self.vote_ques(quesID, 1)
-                else:
-                    self.vote_ques(quesID, -1)
-            return fl
+                    return True
+            return False
         except:
             return False
 
