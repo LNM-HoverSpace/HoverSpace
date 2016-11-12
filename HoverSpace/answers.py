@@ -39,10 +39,6 @@ class AnswerMethods():
             answers = []
         return answers
 
-    def update_votes(self, username, vote=[1, -1]):
-        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
-        usr = User(username)
-        usr.update_karma(vote)
 
 class UpdateAnswers(object):
     def __init__(self, ansID):
@@ -50,3 +46,8 @@ class UpdateAnswers(object):
 
     def update_comments(self, commentID):
         ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$addToSet': {'commentID': commentID}})
+
+    def update_votes(self, username, vote=[1, -1]):
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
+        usr = User(username)
+        usr.update_karma(vote)
