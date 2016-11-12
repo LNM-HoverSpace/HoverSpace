@@ -11,7 +11,12 @@ function updateVotes(quesID, type){
 		contentType: 'application/json; charset=utf-8',
 		data: JSON.stringify({ voteType: type }),
 		dataType : 'json',
-		success: function(){
+		success: function(status){
+			status = JSON.parse(status)
+			console.log("hry")
+			document.getElementById("vote-count").innerHTML = status['count']
+			//status['count'];
+			//document.getElementById("optionone").setAttribute("value", "green");
 			if(type=='up')
 				$(this).removeClass("downvoted").addClass('upvoted');
 			else
@@ -25,6 +30,7 @@ function updateVotes(quesID, type){
 function setBookmark(quesID){
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/bookmark/')
+	console.log(URL)
 	$.ajax({
 		type: 'POST',
 		url: URL,

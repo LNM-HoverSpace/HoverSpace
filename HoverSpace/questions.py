@@ -32,10 +32,10 @@ class QuestionMethods():
     def insert_answers(self, ansID):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'ansID': ansID}})
 
-    def update_votes(self, username, vote=[1, -1]):
+    def updateVotes(self, vote):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$inc': {'votes': vote}})
-        usr = User(username)
-        usr.update_karma(vote)
+        votes = (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['votes']
+        return votes
 
     def update_comments(self, commentID):
         QUESTION_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'commentID': commentID}})
