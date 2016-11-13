@@ -131,11 +131,8 @@ def updateVotes(quesID):
     postedBy = (ques_obj.getQuestion())['postedBy']
     usr = User(postedBy)
     usr.update_karma(status['votesChange'])
-    '''if status['type'] == 'upvote':
-        usr.update_karma(1)
-    elif status['type'] == 'downvote':
-        usr.update_karma(-1)'''
-    return json.dumps({'status': status['type'], 'count': votesCount})
+    print(status['type'], votesCount)
+    return json.dumps({'type': status['type'], 'count': votesCount})
 
 
 @app.route('/question/<quesID>/bookmark/', methods=['GET', 'POST'])

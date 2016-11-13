@@ -1,7 +1,6 @@
 $.ajaxSetup({cache: false});
 
 function updateVotes(quesID, type){
-	//$.ajaxSetup({cache: false});
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/vote/')
 	console.log(URL)
@@ -10,17 +9,22 @@ function updateVotes(quesID, type){
 		url: URL,
 		contentType: 'application/json; charset=utf-8',
 		data: JSON.stringify({ voteType: type }),
-		dataType : 'json',
 		success: function(status){
+			console.log(status)
 			status = JSON.parse(status)
-			console.log("hry")
 			document.getElementById("vote-count").innerHTML = status['count']
-			//status['count'];
-			//document.getElementById("optionone").setAttribute("value", "green");
-			if(type=='up')
+			if(type=='upvote')
 				$(this).removeClass("downvoted").addClass('upvoted');
-			else
+			else if(type=='downvote')
 				$(this).removeClass("upvoted").addClass('downvoted');
+			else
+				$(this).removeClass("upvoted").removeClass("downvoted");
+			if(status['type']=='upvote')
+				alert('You have successfully upvoted.')
+			else if(status['type']=='downvote')
+				alert('You have successfully downvoted.')
+			else
+				alert('Your vote has been removed.')
 		},
 		cache: false
 	});
@@ -36,6 +40,7 @@ function setBookmark(quesID){
 		url: URL,
 		contentType: 'application/json; charset=utf-8',
 		success: function(status){
+			console.log(status)
 			status = JSON.parse(status)
 			if(status['status'] == 'true')
 				$(this).addClass('bookmarked')
