@@ -57,8 +57,9 @@ class User(UserMixin):
     def addQuesVote(self, quesID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
 
+    ###################### CHECKKKKKK
     def updateQuesVote(self, quesID, vote):
-        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$set': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
+        USERS_COLLECTION.find_one_and_update({'_id': self.username, 'voted_ques.quesID': quesID}, {'$set': {'voted_ques.$.vote': vote}})
 
     ####### check
     def removeQuesVote(self, quesID):
