@@ -119,9 +119,20 @@ def updateVotes(quesID):
     rd = (request.data).decode('utf-8')
     data = json.loads(rd)
     voteType = data['voteType']
+    print(voteType)
+
     usr = User(current_user.get_id())
-    #if usr.
-    return json.dumps({'status': 'ok'})
+    status = usr.voteQues(quesID, voteType)
+    print(status)
+
+    ques_obj = QuestionMethods(quesID)
+    votesCount = ques_obj.updateVotes(status['votesChange'])
+
+    postedBy = (ques_obj.getQuestion())['postedBy']
+    usr = User(postedBy)
+    usr.update_karma(status['votesChange'])
+    print(status['type'], votesCount)
+    return json.dumps({'type': status['type'], 'count': votesCount})
 
 
 @app.route('/question/<quesID>/bookmark/', methods=['GET', 'POST'])
