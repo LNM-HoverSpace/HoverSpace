@@ -57,18 +57,21 @@ class User(UserMixin):
     def addQuesVote(self, quesID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
 
-    ###################### CHECKKKKKK
     def updateQuesVote(self, quesID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username, 'voted_ques.quesID': quesID}, {'$set': {'voted_ques.$.vote': vote}})
 
-    ####### check
     def removeQuesVote(self, quesID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$pull': {'voted_ques': {'quesID': quesID}}})
 
     def addAnsVote(self, ansID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ans': {'ansID': ansID, 'vote': vote}}})
 
-    ####### karma points yet to be done
+    def updateAnsVote(self, ansID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username, 'voted_ans.ansID': ansID}, {'$set': {'voted_ans.$.vote': vote}})
+
+    def removeAnsVote(self, ansID):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$pull': {'voted_ans': {'ansID': ansID}}})
+
     def voteQues(self, quesID, voteType):
         fl = False
         status = {
@@ -106,6 +109,59 @@ class User(UserMixin):
                     vote = "upvote"
                 else:
                     self.addQuesVote(quesID, -1)
+                    voteChange = -1
+                    vote = "downvote"
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
+        except:
+            print ("voteQues except")
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
+
+
+    def voteAns(self, ansID, voteType):
+        fl = False
+        status = {
+            'votesChange': None,
+            'type': None
+        }
+        voteChange = 0
+        vote = None
+        try:
+            voted_ans = list()
+            voted_ans = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ans']
+            for ans in voted_ans:
+                if ans['ansID'] == ansID:
+                    if ans['vote'] == 1:
+                        if voteType == 'up':
+                            self.removeAnsVote(ansID)
+                            voteChange = -1
+                        else:
+                            self.updateAnsVote(ansID, -1)
+                            voteChange = -2
+                            vote = "downvote"
+                    else:
+                        if voteType == 'up':
+                            self.updateAnsVote(ansID, 1)
+                            voteChange = 2
+                            vote = "upvote"
+                        else:
+                            self.removeAnsVote(ansID)
+                            voteChange = 1
+                    fl = True
+            if not fl:
+                if voteType == "up":
+                    self.addAnsVote(ansID, 1)
+                    voteChange = 1
+                    vote = "upvote"
+                else:
+                    self.addAnsVote(ansID, -1)
                     voteChange = -1
                     vote = "downvote"
             status = {

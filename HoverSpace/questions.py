@@ -18,7 +18,7 @@ class Question():
                     'long_description': self.long_description, 'timestamp': self.timestamp,
                     'ansID': [], 'commentID': [], 'votes': 0, 'tags': [], 'accepted_ans': None,
                     'flaggedBy': [], 'flag': 'False'
-                }).inserted_id
+                    }).inserted_id
         usr = User(self.postedBy)
         usr.update_questions(str(quesID))
         return quesID
