@@ -53,16 +53,13 @@ class QuestionMethods():
     def getAcceptedAns(self):
         return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['accepted_ans']
 
-    def setFlag(self, userID, votes, flag):
+    def setFlag(self, flag):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'flag': flag}})
-        if flag == 'True':
-            usr = User(userID)
-            usr.update_karma(-votes)
-
+            
     def getFlag(self):
         return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['flag']
 
-    def addFlaggedBy(self, userID):
+    def addFlaggedBy(self, userID, postedBy):
         ques_obj = QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)})
         flags = ques_obj['flaggedBy']
         votes = ques_obj['votes']
@@ -70,7 +67,10 @@ class QuestionMethods():
             return "alreadyFlagged"
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'flaggedBy': userID}})
         if (len(flags)>=10):
-            self.setFlag(userID, votes, 'True')
+            flag = "True"
+            self.setFlag(postedBy, votes, flag)
+            usr = User(postedBy)
+            usr.update_karma(-votes)
             return "quesRemoved"
         return "flagged"
 
