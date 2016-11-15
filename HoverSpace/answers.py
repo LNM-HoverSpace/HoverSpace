@@ -17,7 +17,8 @@ class Answers():
         ansID = ANSWERS_COLLECTION.insert_one({
                     'postedBy': self.postedBy, 'quesID': self.quesID,
                     'ansText': self.ansText, 'timestamp': self.timestamp,
-                    'quesID': self.quesID, 'commentID': [], 'votes': 0}).inserted_id
+                    'quesID': self.quesID, 'commentID': [], 'votes': 0,
+                    'flag': 'False'}).inserted_id
 
         usr = User(self.postedBy)
         usr.update_answers(str(ansID))
@@ -44,10 +45,14 @@ class UpdateAnswers(object):
     def __init__(self, ansID):
         self.ansID = ansID
 
+    def getAnswer(self):
+        return (ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.ansID)}))
+
     def update_comments(self, commentID):
         ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$addToSet': {'commentID': commentID}})
 
-    def update_votes(self, username, vote=[1, -1]):
+    def updateVotes(self, username, vote):
         ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
-        usr = User(username)
-        usr.update_karma(vote)
+        votes = (ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.ansID)}))['votes']
+        return votes
+        

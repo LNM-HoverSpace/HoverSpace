@@ -9,40 +9,21 @@
         <br>
         <label id="ques_posted_by">{{ question['postedBy'] }}</label>
         <br>
-        <div class="vote-buttons">
-          <input type="button" class="vote-up" value="Upvote">
-          <input type="button" class="vote-down" value="Downvote">
-          <span class="vote-count" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
+        <div class="ques vote-buttons">
+          <button type="button" class="qvote-up">Upvote</button>
+          <button type="button" class="qvote-down">Downvote</button>
+          <span class="qvote-count" name="qvote-count" id="qvote-count">{{ question['votes'] }}</span>
         </div>
         <div class="bookmark-button">
           <input type="button" class="bookmark" value="Bookmark">
         </div>
-        <div class="set-as-flag-button">
-          <input type="button" class="flag" value="Flag as inappropiate">
+        <div class="ques set-as-flag-button">
+          <input type="button" class="qflag" value="Flag as inappropiate">
         </div>
         <script type="text/javascript" src="../../static/js/custom.js"></script>
-        <script type="text/javascript">
-          var quesID = "{{ question['_id'] }}";
-          var type = new String("");
-          $('.vote-up').on('click', function(){
-            updateVotes(quesID, type="up");
-          });
-
-          $('.vote-down').on('click', function(){
-            updateVotes(quesID, type="down");
-          });
-
-          $('.bookmark').on('click', function(){
-            setBookmark(quesID);
-          });
-
-          $('.flag').on('click', function(){
-            setFlag(quesID);
-          });
-        </script>
-
   </div>
-  <br>  
+
+  <br>
   {% for answer in answers %}
     <div id = "Ques_ans_div" class = "container">
       <br><br>
@@ -50,7 +31,15 @@
       <label id = "answer_label" for = "answer">{{ answer['ansText'] }}</label>
       <br>
       <label id = "posted_label" for="postedby"> {{ answer['postedBy'] }}</label>
-      <br><br>    
+      <br><br>
+      <div class="ans vote-buttons" id="{{ answer['_id'] }}">
+        <button type="button" class="avote-up">Upvote</button>
+        <button type="button" class="avote-down">Downvote</button>
+        <span class="avote-count" name="avote-count">{{ answer['votes'] }}</span>
+      </div>
+      <div class="ans flag-button">
+        <input type="button" class="aflag" value="Flag as inappropiate">
+      </div>  
     </div>
     <br>
   {% endfor %}
@@ -71,7 +60,37 @@
       <button type="Submit" id="submit_btn" class="btn btn-default">Submit</button>
     </div>
   </form>
-  <!--</div> 
-    </div>
--->
+
+  <script type="text/javascript">
+    var quesID = "{{ question['_id'] }}";
+    var type = new String("");
+    $('.qvote-up').on('click', function(){
+      updateQuesVotes(quesID, type="up");
+    });
+
+    $('.qvote-down').on('click', function(){
+      updateQuesVotes(quesID, type="down");
+    });
+
+    $('.bookmark').on('click', function(){
+      setBookmark(quesID);
+    });
+
+    $('.qflag').on('click', function(){
+      setQuesFlag(quesID);
+    });
+
+    $('.avote-up').on('click', function(){
+      updateAnsVotes(this.parentElement.id, type="up");
+    });
+
+    $('.avote-down').on('click', function(){
+      updateAnsVotes(this.parentElement.id, type="down");
+    });
+
+    $('.aflag').on('click', function(){
+      setAnsFlag(this.parentElement.id);
+    });
+  </script>
+
   {% endblock %}
