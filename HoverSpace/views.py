@@ -5,7 +5,7 @@ from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
 from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
 from HoverSpace.questions import Question, QuestionMethods
-from HoverSpace.answers import Answers, AnswerMethods
+from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
 from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm
 from bson.objectid import ObjectId
@@ -21,7 +21,11 @@ def home():
             story = {
                 'short_description' : record['short_description'],
                 'long_description': record['long_description'],
-                'ques_url' : url_for('viewQuestion', quesID=str(record['_id']))
+                'ques_url' : url_for('viewQuestion', quesID=str(record['_id'])),
+                'postedBy': record['postedBy'],
+                'ansCount': len(record['ansID']),
+                'votes': record['votes'],
+                'timestamp': record['timestamp']
             }
             if record['accepted_ans']:
                 story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(accepted_ans)})
@@ -115,22 +119,52 @@ def viewQuestion(quesID):
     return render_template('question.html', question=ques, answers=ans, form=form)
 
 
-@app.route('/question/<quesID>/vote/', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/vote/', methods=['POST'])
 @login_required
-def updateVotes(quesID):
+def updateQuesVotes(quesID):
     rd = (request.data).decode('utf-8')
     data = json.loads(rd)
     voteType = data['voteType']
     print(voteType)
 
+    ques_obj = QuestionMethods(quesID)
+    postedBy = (ques_obj.getQuestion())['postedBy']
+
+    if current_user.get_id() == postedBy:
+        return json.dumps({'type': 'notAllowed'})
+
     usr = User(current_user.get_id())
     status = usr.voteQues(quesID, voteType)
     print(status)
 
-    ques_obj = QuestionMethods(quesID)
     votesCount = ques_obj.updateVotes(status['votesChange'])
 
-    postedBy = (ques_obj.getQuestion())['postedBy']
+    usr = User(postedBy)
+    usr.update_karma(status['votesChange'])
+    print(status['type'], votesCount)
+    return json.dumps({'type': status['type'], 'count': votesCount})
+
+
+@app.route('/answer/<ansID>/vote/', methods=['POST'])
+@login_required
+def updateAnsVotes(ansID):
+    rd = (request.data).decode('utf-8')
+    data = json.loads(rd)
+    voteType = data['voteType']
+    print(voteType)
+
+    ans_obj = UpdateAnswers(ansID)
+    postedBy = (ans_obj.getAnswer())['postedBy']
+
+    if current_user.get_id() == postedBy:
+        return json.dumps({'type': 'notAllowed'})
+
+    usr = User(current_user.get_id())
+    status = usr.voteAns(ansID, voteType)
+    print(status)
+
+    votesCount = ans_obj.updateVotes(postedBy, status['votesChange'])
+
     usr = User(postedBy)
     usr.update_karma(status['votesChange'])
     print(status['type'], votesCount)
@@ -154,6 +188,9 @@ def setBookmark(quesID):
 def setFlag(quesID):
     usr = current_user.get_id()
     ques_obj = QuestionMethods(quesID)
+    postedBy = (ques_obj.getQuestion())['postedBy']
+    if usr == postedBy:
+        return json.dumps({'flag': 'notAllowed', 'message': 'You cannot flag your own question'})
     fl = ques_obj.addFlaggedBy(usr)
     if fl=='flagged':
         return json.dumps({'flag': 'flagged', 'message': 'You have marked this question inappropiate'})

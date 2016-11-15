@@ -1,6 +1,6 @@
 $.ajaxSetup({cache: false});
 
-function updateVotes(quesID, type){
+function updateQuesVotes(quesID, type){
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/vote/')
 	console.log(URL)
@@ -12,19 +12,23 @@ function updateVotes(quesID, type){
 		success: function(status){
 			console.log(status)
 			status = JSON.parse(status)
-			document.getElementById("vote-count").innerHTML = status['count']
 			if(type=='upvote')
 				$(this).addClass('upvoted').removeClass("downvoted");
 			else if(type=='downvote')
 				$(this).addClass('downvoted').removeClass("upvoted");
 			else
 				$(this).removeClass("upvoted").removeClass("downvoted");
-			if(status['type']=='upvote')
-				alert('You have successfully upvoted.')
-			else if(status['type']=='downvote')
-				alert('You have successfully downvoted.')
-			else
-				alert('Your vote has been removed.')
+			if(status['type']=='notAllowed')
+				alert('You are not allowed to vote your own question')
+			else {
+				document.getElementById("qvote-count").innerHTML = status['count']
+				if(status['type']=='upvote')
+					alert('You have successfully upvoted.')
+				else if(status['type']=='downvote')
+					alert('You have successfully downvoted.')
+				else
+					alert('Your vote has been removed.')
+			}
 		},
 		cache: false
 	});
@@ -52,7 +56,7 @@ function setBookmark(quesID){
 	});
 }
 
-function setFlag(quesID){
+function setQuesFlag(quesID){
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/flag/')
 	console.log(URL)
@@ -72,3 +76,38 @@ function setFlag(quesID){
 		cache: false
 	});
 }
+
+function updateAnsVotes(ansID, type){
+	var URL = new String('/answer/')
+	URL = URL.concat(ansID, '/vote/')
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({ voteType: type }),
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(type=='upvote')
+				$(this).addClass('upvoted').removeClass("downvoted");
+			else if(type=='downvote')
+				$(this).addClass('downvoted').removeClass("upvoted");
+			else
+				$(this).removeClass("upvoted").removeClass("downvoted");
+			if(status['type']=='notAllowed')
+				alert('You are not allowed to vote your own answer')
+			else {
+				document.getElementById(ansID).getElementsByTagName("span")[0].innerHTML = status['count']
+				if(status['type']=='upvote')
+					alert('You have successfully upvoted.')
+				else if(status['type']=='downvote')
+					alert('You have successfully downvoted.')
+				else
+					alert('Your vote has been removed.')
+			}
+		},
+		cache: false
+	});
+}
+
