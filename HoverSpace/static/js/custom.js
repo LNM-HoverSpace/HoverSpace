@@ -1,5 +1,9 @@
 $.ajaxSetup({cache: false});
 
+function updateShortDescription(quesID, short_des){
+	document.removeChild(".edit-short")
+}
+
 function updateQuesVotes(quesID, type){
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/vote/')

@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+{% block content %}
+	{{data['userID']}}<br>
+	{{data['fname']}} {{data['lname']}}<br>
+	{{data['email']}}<br>
+	{{data['karma']}}<br>
+	{% for q in data['quesPosted'] %}
+		<a href="{{ url_for('viewQuestion', quesID=q['_id']) }}">{{ q['short_description'] }}</a>
+		{{ q['timestamp'] }} {{ q['votes'] }} {{ q['ansID'] | length }}
+		<br>
+	{% endfor %}
+{% endblock %}

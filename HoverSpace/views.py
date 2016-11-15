@@ -34,16 +34,24 @@ def home():
             pass
     return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
-'''@app.route('/profile/', methods=['GET'])
-@login_required
+@app.route('/profile/', methods=['GET'])
 def profile():
     user = USERS_COLLECTION.find_one({'_id': current_user.get_id()})
-    ques, ans = [], []
-    for q_obj in user['quesPosted']:
-        q = QuestionMethods(q_obj)
-        ques.append(q.getQuestion())
-    return redirect(url_for('home'))
-    #return render_template('profile.html', title='HoverSpace | Profile', user=user)'''
+    quesPosted = user['quesPosted']
+    for i in range(len(quesPosted)):
+        quesPosted[i] = ObjectId(quesPosted[i])
+    ques = []
+    for q in QUESTIONS_COLLECTION.find({'_id': {'$in': quesPosted}}):
+        ques.append(q)
+    data = {
+        'userID': user['_id'],
+        'fname': user['firstname'],
+        'lname': user['lastname'],
+        'email': user['email'],
+        'karma': user['karma'],
+        'quesPosted': ques
+    }
+    return render_template('profile.html', title='HoverSpace | Profile', data=data)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
