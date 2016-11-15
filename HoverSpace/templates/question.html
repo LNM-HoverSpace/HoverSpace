@@ -1,10 +1,11 @@
 {% extends "base.html"%}
 {% block content %}
-  
+
   <div id="ques_head" class="container">
         <img id="ques_link_avatar" src="/static/img/avatar.png">
         <label id="short" for="short_description">{{ question['short_description'] }}</label>
         <br>
+        <button type="button" id="edit-short">Edit short</button>
         <label id="long" for="long_description">Long Description : {{ question['long_description'] }}</label>
         <br>
         <label id="ques_posted_by">{{ question['postedBy'] }}</label>
@@ -60,6 +61,10 @@
   <script type="text/javascript">
     var quesID = "{{ question['_id'] }}";
     var type = new String("");
+    $('.edit-short').on('click', function(){
+      updateShortDescription(quesID, "{{ question['short_description'] }}");
+    });
+
     $('.qvote-up').on('click', function(){
       updateQuesVotes(quesID, type="up");
     });
