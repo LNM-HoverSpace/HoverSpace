@@ -1,4 +1,4 @@
-from HoverSpace.application import app, lm
+from HoverSpace.application import app, lm, srch
 import pymongo
 import json
 from flask import request, redirect, render_template, url_for, flash, session
@@ -7,7 +7,7 @@ from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_CO
 from HoverSpace.questions import Question, QuestionMethods
 from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
-from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm
+from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm, SearchForm
 from bson.objectid import ObjectId
 
 
@@ -52,6 +52,14 @@ def profile():
         'quesPosted': ques
     }
     return render_template('profile.html', title='HoverSpace | Profile', data=data)
+
+@app.route('/search/', methods=['GET', 'POST'])
+def question_searching():
+    form = SearchForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        l = srch.search(form.search_text.data)
+        return redirect(url_for('question_searching', form=form, result=l))
+    return render_template('search.html', title='HoverSpace | Search', form=form, result=l)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -104,6 +112,7 @@ def postQuestion():
             tags = quesmet_obj.getTags(form.tags)
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
+            srch.add_string(ObjectId(quesID), form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
