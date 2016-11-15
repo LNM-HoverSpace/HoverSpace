@@ -111,6 +111,7 @@ def viewQuestion(quesID):
         username = current_user.get_id()
         ans_obj = Answers(username, quesID, form.ans_text.data)
         ansID = ans_obj.post_answer()
+        return redirect(url_for('viewQuestion', quesID=quesID))
 
     ques_obj = QuestionMethods(quesID)
     ques = ques_obj.getQuestion()
@@ -171,7 +172,7 @@ def updateAnsVotes(ansID):
     return json.dumps({'type': status['type'], 'count': votesCount})
 
 
-@app.route('/question/<quesID>/bookmark/', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/bookmark/', methods=['POST'])
 @login_required
 def setBookmark(quesID):
     usr = User(current_user.get_id())
@@ -183,15 +184,15 @@ def setBookmark(quesID):
         return json.dumps({'status': 'false', 'message': 'Bookmark removed'})
 
 
-@app.route('/question/<quesID>/flag/', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/flag/', methods=['POST'])
 @login_required
-def setFlag(quesID):
+def setQuesFlag(quesID):
     usr = current_user.get_id()
     ques_obj = QuestionMethods(quesID)
     postedBy = (ques_obj.getQuestion())['postedBy']
     if usr == postedBy:
         return json.dumps({'flag': 'notAllowed', 'message': 'You cannot flag your own question'})
-    fl = ques_obj.addFlaggedBy(usr)
+    fl = ques_obj.addFlaggedBy(usr, postedBy)
     if fl=='flagged':
         return json.dumps({'flag': 'flagged', 'message': 'You have marked this question inappropiate'})
     elif fl=='alreadyFlagged':
@@ -199,6 +200,24 @@ def setFlag(quesID):
         return json.dumps({'flag': 'flagRemoved', 'message': 'Flag removed'})
     else:
         return json.dumps({'flag': 'quesRemoved', 'message': 'This question has been marked inappropiate by more than 10 users, so it is removed'})
+
+
+@app.route('/answer/<ansID>/flag/', methods=['POST'])
+@login_required
+def setAnsFlag(ansID):
+    usr = current_user.get_id()
+    ans_obj = UpdateAnswers(ansID)
+    postedBy = (ans_obj.getAnswer())['postedBy']
+    if usr == postedBy:
+        return json.dumps({'flag': 'notAllowed', 'message': 'You cannot flag your own answer'})
+    fl = ans_obj.addFlaggedBy(usr, postedBy)
+    if fl=='flagged':
+        return json.dumps({'flag': 'flagged', 'message': 'You have marked this answer inappropiate'})
+    elif fl=='alreadyFlagged':
+        ans_obj.removeFlag(usr)
+        return json.dumps({'flag': 'flagRemoved', 'message': 'Flag removed'})
+    else:
+        return json.dumps({'flag': 'quesRemoved', 'message': 'This answer has been marked inappropiate by more than 10 users, so it is removed'})
 
 
 @lm.user_loader

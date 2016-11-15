@@ -13,12 +13,9 @@
           <button type="button" class="qvote-up">Upvote</button>
           <button type="button" class="qvote-down">Downvote</button>
           <span class="qvote-count" name="qvote-count" id="qvote-count">{{ question['votes'] }}</span>
-        </div>
-        <div class="bookmark-button">
-          <input type="button" class="bookmark" value="Bookmark">
-        </div>
-        <div class="ques set-as-flag-button">
-          <input type="button" class="qflag" value="Flag as inappropiate">
+          <br>
+          <button type="button" class="qflag">Flag as inappropiate</button>
+          <button type="button" class="qbookmark">Bookmark</button>
         </div>
         <script type="text/javascript" src="../../static/js/custom.js"></script>
   </div>
@@ -36,10 +33,9 @@
         <button type="button" class="avote-up">Upvote</button>
         <button type="button" class="avote-down">Downvote</button>
         <span class="avote-count" name="avote-count">{{ answer['votes'] }}</span>
+        <br>
+        <button type="button" class="aflag">Flag as inappropiate</button>
       </div>
-      <div class="ans flag-button">
-        <input type="button" class="aflag" value="Flag as inappropiate">
-      </div>  
     </div>
     <br>
   {% endfor %}

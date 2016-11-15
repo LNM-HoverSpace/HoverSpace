@@ -111,3 +111,23 @@ function updateAnsVotes(ansID, type){
 	});
 }
 
+function setAnsFlag(ansID){
+	var URL = new String('/answer/')
+	URL = URL.concat(ansID, '/flag/')
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(status['flag'] == 'flagged')
+				$(this).addClass('flagged')
+			else if(status['flag'] == 'flagRemoved')
+				$(this).removeClass("flagged")
+			alert(status['message']);
+		},
+		cache: false
+	});
+}
