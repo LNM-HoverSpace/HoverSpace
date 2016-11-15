@@ -14,7 +14,7 @@ from bson.objectid import ObjectId
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
 def home():
-    questions = QUESTIONS_COLLECTION.find().sort('timestamp', pymongo.DESCENDING)
+    questions = QUESTIONS_COLLECTION.find({'flag': 'False'}).sort('timestamp', pymongo.DESCENDING)
     feed = list()
     for record in questions:
         try:
@@ -88,7 +88,9 @@ def postQuestion():
             if question:
                 flash("This question has already been asked", category='error')
                 return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
-            ques_obj = Question(username, form.short_description.data, form.long_description.data)
+            quesmet_obj = QuestionMethods('DUMMY_QUESTION')
+            tags = quesmet_obj.getTags(form.tags)
+            ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
@@ -145,6 +147,21 @@ def setBookmark(quesID):
         return json.dumps({'status': 'true', 'message': 'This question has been successfully bookmarked'})
     else:
         return json.dumps({'status': 'false', 'message': 'Bookmark removed'})
+
+
+@app.route('/question/<quesID>/flag/', methods=['GET', 'POST'])
+@login_required
+def setFlag(quesID):
+    usr = current_user.get_id()
+    ques_obj = QuestionMethods(quesID)
+    fl = ques_obj.addFlaggedBy(usr)
+    if fl=='flagged':
+        return json.dumps({'flag': 'flagged', 'message': 'You have marked this question inappropiate'})
+    elif fl=='alreadyFlagged':
+        ques_obj.removeFlag(usr)
+        return json.dumps({'flag': 'flagRemoved', 'message': 'Flag removed'})
+    else:
+        return json.dumps({'flag': 'quesRemoved', 'message': 'This question has been marked inappropiate by more than 10 users, so it is removed'})
 
 
 @lm.user_loader

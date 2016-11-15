@@ -14,9 +14,9 @@ function updateVotes(quesID, type){
 			status = JSON.parse(status)
 			document.getElementById("vote-count").innerHTML = status['count']
 			if(type=='upvote')
-				$(this).removeClass("downvoted").addClass('upvoted');
+				$(this).addClass('upvoted').removeClass("downvoted");
 			else if(type=='downvote')
-				$(this).removeClass("upvoted").addClass('downvoted');
+				$(this).addClass('downvoted').removeClass("upvoted");
 			else
 				$(this).removeClass("upvoted").removeClass("downvoted");
 			if(status['type']=='upvote')
@@ -46,6 +46,27 @@ function setBookmark(quesID){
 				$(this).addClass('bookmarked')
 			else
 				$(this).removeClass("bookmarked")
+			alert(status['message']);
+		},
+		cache: false
+	});
+}
+
+function setFlag(quesID){
+	var URL = new String('/question/')
+	URL = URL.concat(quesID, '/flag/')
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(status['flag'] == 'flagged')
+				$(this).addClass('flagged')
+			else if(status['flag'] == 'flagRemoved')
+				$(this).removeClass("flagged")
 			alert(status['message']);
 		},
 		cache: false

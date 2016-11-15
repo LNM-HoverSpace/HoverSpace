@@ -42,7 +42,7 @@ class User(UserMixin):
     def update_answers(self, ansID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'ansPosted': ansID}})
 
-    def update_karma(self, karma=[1, -1]):
+    def update_karma(self, karma):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$inc': {'karma': karma}})
 
     def setBookmark(self, quesID):

@@ -16,9 +16,10 @@ class SignUpForm(FlaskForm):
 
 
 class QuestionForm(FlaskForm):
-	short_description = TextAreaField('Short Desciption', validators=[DataRequired(), Length(max=100)])
-	long_description = TextAreaField('Long Desciption', validators=[Length(max=500)])
+    short_description = TextAreaField('Short Desciption', validators=[DataRequired(), Length(max=100)])
+    long_description = TextAreaField('Long Desciption', validators=[Length(max=500)])
+    tags = TextAreaField('Add your tags here', validators=[Length(max=50)])
 
 
 class AnswerForm(FlaskForm):
-	ans_text = TextAreaField('Write your answer here: ', description='Write your answer here', validators=[DataRequired(), Length(max=1000)])
+    ans_text = TextAreaField('Write your answer here: ', description='Write your answer here', validators=[DataRequired(), Length(max=1000)])
