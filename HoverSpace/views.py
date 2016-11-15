@@ -57,9 +57,12 @@ def profile():
 def question_searching():
     form = SearchForm()
     if request.method == 'POST' and form.validate_on_submit():
-        l = srch.search(form.search_text.data)
+        l = []
+        for selected in srch.search(form.search_text.data):
+            q = QuestionMethods(selected)
+            l.append(q.getQuestion())
         return redirect(url_for('question_searching', form=form, result=l))
-    return render_template('search.html', title='HoverSpace | Search', form=form, result=l)
+    return render_template('search.html', title='HoverSpace | Search', form=form, result=[])
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -112,7 +115,7 @@ def postQuestion():
             tags = quesmet_obj.getTags(form.tags)
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
-            srch.add_string(ObjectId(quesID), form.short_description.data)
+            srch.add_string(quesID, form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
