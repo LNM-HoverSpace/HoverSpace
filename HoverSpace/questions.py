@@ -5,17 +5,19 @@ from bson.objectid import ObjectId
 
 class Question():
     #  quesID, short_description, long_description, postedBy, timestamp, ansID, upvotes, downvotes, accepted_ans, flag
-    def __init__(self, postedBy, short_description, long_description=None, timestamp=None):
+    def __init__(self, postedBy, short_description, long_description=None, tags=None, timestamp=None):
         self.postedBy = postedBy
         self.timestamp = datetime.datetime.utcnow()
         self.short_description = short_description
         self.long_description = long_description
+        self.tags = tags
 
     def postQuestion(self):
         quesID = QUESTIONS_COLLECTION.insert_one({
                     'postedBy': self.postedBy, 'short_description': self.short_description,
                     'long_description': self.long_description, 'timestamp': self.timestamp,
-                    'ansID': [], 'commentID': [], 'votes' : 0, 'accepted_ans': None, 'flag': False
+                    'ansID': [], 'commentID': [], 'votes': 0, 'tags': [], 'accepted_ans': None,
+                    'flaggedBy': [], 'flag': 'False'
                 }).inserted_id
         usr = User(self.postedBy)
         usr.update_questions(str(quesID))
@@ -38,7 +40,10 @@ class QuestionMethods():
         return votes
 
     def update_comments(self, commentID):
-        QUESTION_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'commentID': commentID}})
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'commentID': commentID}})
+
+    def getTags(self, quesTags):
+        pass
 
     def setAcceptedAns(self, ansID, username):
         usr = (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['postedBy']
@@ -48,8 +53,26 @@ class QuestionMethods():
     def getAcceptedAns(self):
         return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['accepted_ans']
 
-    def setFlag(self, flag=False):
+    def setFlag(self, userID, votes, flag):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'flag': flag}})
+        if flag == 'True':
+            usr = User(userID)
+            usr.update_karma(-votes)
 
     def getFlag(self):
         return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['flag']
+
+    def addFlaggedBy(self, userID):
+        ques_obj = QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)})
+        flags = ques_obj['flaggedBy']
+        votes = ques_obj['votes']
+        if userID in flags:
+            return "alreadyFlagged"
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'flaggedBy': userID}})
+        if (len(flags)>=10):
+            self.setFlag(userID, votes, 'True')
+            return "quesRemoved"
+        return "flagged"
+
+    def removeFlag(self, userID):
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$pull': {'flaggedBy': userID}})

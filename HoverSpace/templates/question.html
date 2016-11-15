@@ -17,6 +17,9 @@
         <div class="bookmark-button">
           <input type="button" class="bookmark" value="Bookmark">
         </div>
+        <div class="set-as-flag-button">
+          <input type="button" class="flag" value="Flag as inappropiate">
+        </div>
         <script type="text/javascript" src="../../static/js/custom.js"></script>
         <script type="text/javascript">
           var quesID = "{{ question['_id'] }}";
@@ -31,6 +34,10 @@
 
           $('.bookmark').on('click', function(){
             setBookmark(quesID);
+          });
+
+          $('.flag').on('click', function(){
+            setFlag(quesID);
           });
         </script>
 
