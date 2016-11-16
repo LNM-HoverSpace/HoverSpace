@@ -1,0 +1,73 @@
+#profile_column{
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-radius: 20px;
+	background-color: #3071a9;
+
+}
+#avatar_profile{
+	position: relative;
+	top: 10px;
+	left: 75px;
+	width :200px;
+	height: 120px;
+}
+#user_id{
+	position: relative;
+	text-align: center;
+	color: #ffffff;
+}
+#name{
+	position: relative;
+	text-align: center;
+	color: #ffffff;
+}
+#email{
+	position: relative;
+	text-align: center;
+	color: #ffffff;
+}
+#karma{
+	position: relative;
+	text-align: center;
+	color: #ffffff;
+}
+#prof_ques{
+	position: relative;
+	left: 80px;
+	top: 35px;
+	color:black;
+	font-size: 18px;
+}
+#votes_ques{
+	position: relative;
+	left: 200px;
+}
+#time_stamp{
+	position: relative;
+	left: 300px;
+	top: 67px;
+}
+#ansID{
+	position: relative;
+	left: 100px;
+	top: 40px;
+}
+#vote-count{
+	position: relative;
+	left: 20px;
+}
+#upvote{
+	position:relative;
+	top: 10px;
+	display: inline-block;
+}
+#downvote{
+	position: relative;
+	display: inline-block;
+	bottom: 10px;
+}
+#upvote_downvote{
+	position: relative;
+	bottom: 10px;
+}
