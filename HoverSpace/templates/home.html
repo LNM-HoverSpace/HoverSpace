@@ -4,19 +4,12 @@
 <hr/>
 <div class = row>
 <div id = "tag_column" class = "col-lg-2">
-    <h4 id = "tag_id">- Tags</h4>
+    <h4 id = "tag_id">Tags</h4>
     <hr/>
         <ul id="tag_list">
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
-          <li>python</li>
+          {% for tag in tags %}
+            <li>{{ tag }}</li>
+          {% endfor %}
         </ul>
       </div>
   <div class = "col-lg-8">

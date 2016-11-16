@@ -14,8 +14,6 @@ class SignUpForm(FlaskForm):
     lastname = TextField("Last name", [DataRequired()])
     password = PasswordField('Password', [DataRequired(), Length(min=6)])
 
-tag_choices = ['Science', 'Technology', 'Travel', 'Fiction', 'Education', 'Government', 'Weather', 'Politics', 'Current Affairs', 'History', 'Nature', 'Food', 'Outing']
-
 class QuestionForm(FlaskForm):
     short_description = TextAreaField('Short Desciption', validators=[DataRequired(), Length(max=100)])
     long_description = TextAreaField('Long Desciption', validators=[Length(max=500)])

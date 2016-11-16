@@ -31,7 +31,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul id="nav-elements" class="nav navbar-nav navbar-right">
-                    {% if current_user.is_authenticated %}
+                            {% if current_user.is_authenticated %}
                             <div class="col-sm-3 col-md-3">
                               <form id = "search" class="navbar-form" role="search" action="{{ url_for('home') }}" method="POST">
                                 <div class="input-group">
@@ -42,7 +42,7 @@
                                     </div>
                             </form>
                             </div>
-                            <li><a id = "profile_page" href="{{ url_for('profile') }}">{{ current_user.get_id() }}</a></li>
+                            <li><a id = "profile_page" href="{{ url_for('profile', userID=current_user.get_id()) }}">{{ current_user.get_id() }}</a></li>
                             <li><a id = "post_ques" href="{{ url_for('postQuestion')}}">Post a Question</a></li>
                             <li><a id = "logout_url" href="{{ url_for('logout') }}">Logout</a></li>
                         {% else %}
@@ -53,11 +53,11 @@
                 </div>
             </div>
           </nav>
-        		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
           <div class="container">
             {% include "flash.html" %}
             {% block content %}{% endblock %}
-        	</div>
+            </div>
 
     </body>
 </html>
