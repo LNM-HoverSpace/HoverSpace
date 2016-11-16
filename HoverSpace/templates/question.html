@@ -2,14 +2,18 @@
 {% block content %}
 <hr/>
 <link rel="stylesheet" type="text/css" href="../../static/css/question.css">
+<script src="https://use.fontawesome.com/5e5d2ddae6.js"></script>
   <div id = "ques_head" class="row">
     <div class = "col-md-9 ">
     <div id = "upvote_downvote" class = "col-md-1 col-md-offset-1">
-        <input type = "submit" id = "upvote" class = "qvote-up">
+        <input type = "image" id = "upvote" class = "qvote-up" src="../../static/img/upvote.png">
         <br>
         <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
         <br>
-        <input type = "submit" id= "downvote" class = "qvote-down">
+        <input type = "image" id= "downvote" class = "qvote-down" src="../../static/img/downvote.png">
+        <br>
+        <button id = "bookmark_ques" type="button" >Bookmark</button>
+        <button id = "flag_ques" type="button" >Flag</button>
     </div> 
     <div class = "col-md-6">
        <div class = "media-object">
@@ -38,11 +42,14 @@
           <hr/>
           <div class = "col-md-8 ">
             <div id = "upvote_downvote" class = "col-md-1 col-md-offset-3">
-            <input id = "upvote" type = "button" class = "vote-up">
+            <input id = "upvote" type = "image" class = "vote-up" src="../../static/img/upvote.png">
             <br>
             <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ answer['votes'] }}</span>
             <br>
-            <input type = "button" id= "downvote" class = "vote-down">
+            <input type = "image" id= "downvote" class = "vote-down" src="../../static/img/downvote.png">
+            <br>
+            <button id = "bookmark_ans" type="button" >Accepted</button>
+            <button id = "flag_ans" type="button" >Flag</button>
             </div> 
           <div class = "col-md-6">
             <div class = "media-object">
