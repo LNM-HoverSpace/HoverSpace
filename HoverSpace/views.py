@@ -16,7 +16,11 @@ from bson.objectid import ObjectId
 def home():
     form = SearchForm()
     if request.method == "POST":
-        return redirect(url_for('search', s=form.srch_term.data))
+        l = []
+        for selected in srch.search(form.srch_term.data):
+            q = QuestionMethods(selected)
+            l.append(q.getQuestion())
+        return render_template('search.html', title='HoverSpace | Search', result=l)
     questions = QUESTIONS_COLLECTION.find({'flag': 'False'}).sort('timestamp', pymongo.DESCENDING)
     feed = list()
     for record in questions:
@@ -36,14 +40,6 @@ def home():
         except KeyError:
             pass
     return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form)
-
-@app.route('/search/<s>/', methods=['GET'])
-def search(s):
-    l = []
-    for selected in srch.search(s):
-        q = QuestionMethods(selected)
-        l.append(q.getQuestion())
-    return render_template('search.html', title='HoverSpace | Search', result=l)
 
 @app.route('/profile/', methods=['GET'])
 def profile():
@@ -122,6 +118,18 @@ def postQuestion():
             return redirect(url_for('login'))
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
 
+@app.route('/question/<quesID>/edit/', methods=['GET', 'POST'])
+@login_required
+def editQuestionDescription(quesID):
+    form = QuestionForm()
+    q = QuestionMethods(quesID)
+    if request.method == 'POST':
+        q.editQuestion(form.short_description.data, form.long_description.data)
+        return redirect(url_for('viewQuestion', quesID=quesID))
+    ques = q.getQuestion()
+    '''if request.method == 'GET':
+        ques = q.getQuestion()
+        return redirect(url_for('viewQuestion', quesID=quesID))'''
 
 @app.route('/question/<quesID>/', methods=['GET', 'POST'])
 @login_required
@@ -138,10 +146,6 @@ def viewQuestion(quesID):
     ansmet_obj = AnswerMethods(quesID)
     ans = ansmet_obj.get_answers(quesID)
     return render_template('question.html', question=ques, answers=ans, form=form)
-
-@app.route('/question/<quesID>/edit', methods=['GET', 'POST'])
-def editQuestionDescription(quesID):
-    form = QuestionForm()
 
 @app.route('/question/<quesID>/vote/', methods=['POST'])
 @login_required
