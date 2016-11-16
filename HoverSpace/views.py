@@ -1,13 +1,13 @@
-from HoverSpace.application import app, lm, srch
+from HoverSpace.application import app, lm, srch, tag_choices
 import pymongo
 import json
 from flask import request, redirect, render_template, url_for, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
-from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION
+from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_COLLECTION, TAGS_COLLECTION
 from HoverSpace.questions import Question, QuestionMethods
 from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
-from HoverSpace.tags import Tag
+from HoverSpace.tags import TagMethods, TagQuestion
 from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm, SearchForm
 from bson.objectid import ObjectId
 
@@ -17,7 +17,11 @@ from bson.objectid import ObjectId
 def home():
     form = SearchForm()
     if request.method == "POST":
-        return redirect(url_for('search', s=form.srch_term.data))
+        l = []
+        for selected in srch.search(form.srch_term.data):
+            q = QuestionMethods(selected)
+            l.append(q.getQuestion())
+        return render_template('search.html', title='HoverSpace | Search', result=l)
     questions = QUESTIONS_COLLECTION.find({'flag': 'False'}).sort('timestamp', pymongo.DESCENDING)
     feed = list()
     for record in questions:
@@ -35,17 +39,12 @@ def home():
                 story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(record['accepted_ans'])})
             feed.append(story)
             topcontributors = USERS_COLLECTION.find().sort('karma', pymongo.DESCENDING).limit(10)
+            tags = []
+            for tag in TAGS_COLLECTION.find():
+                tags.append(tag['_id']) 
         except KeyError:
             pass
-    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form, topcontributors=topcontributors)
-
-@app.route('/search/<s>/', methods=['GET'])
-def search(s):
-    l = []
-    for selected in srch.search(s):
-        q = QuestionMethods(selected)
-        l.append(q.getQuestion())
-    return render_template('search.html', title='HoverSpace | Search', result=l)
+    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form, tags=tags, topcontributors=topcontributors)
 
 @app.route('/profile/<userID>', methods=['GET'])
 def profile(userID):
@@ -102,6 +101,15 @@ def signup():
                 return redirect(url_for('login'))
     return render_template('signup.html', title='HoverSpace | Signup', form=form)
 
+@app.route('/tags/<tag>/', methods=['GET'])
+def viewTagQuestion(tag):
+    quesID = TagQuestion(tag)
+    l = []
+    for q in quesID:
+        qq = QuestionMethods(q)
+        l.append(qq.getQuestion)
+    return render_template('tag.html', title='HoverSpace | Tag Questions', tags=tag, result=l)
+
 @app.route('/post-a-question/', methods=['GET', 'POST'])
 @login_required
 def postQuestion():
@@ -116,16 +124,27 @@ def postQuestion():
             tags = request.form.getlist('tag')
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
-            tag_obj = Tag(quesID, tags)
+            tag_obj = TagMethods(quesID, tags)
             tag_obj.addQuestion()
             srch.add_string(quesID, form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
             return redirect(url_for('login'))
-    tag_choices = ['Science', 'Technology', 'Travel', 'Fiction', 'Education', 'Government', 'Weather', 'Politics', 'Current Affairs', 'History', 'Nature', 'Food', 'Outing']
     return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form, choices=tag_choices)
 
+@app.route('/question/<quesID>/edit/', methods=['GET', 'POST'])
+@login_required
+def editQuestionDescription(quesID):
+    form = QuestionForm()
+    q = QuestionMethods(quesID)
+    if request.method == 'POST':
+        q.editQuestion(form.short_description.data, form.long_description.data)
+        return redirect(url_for('viewQuestion', quesID=quesID))
+    ques = q.getQuestion()
+    '''if request.method == 'GET':
+        ques = q.getQuestion()
+        return redirect(url_for('viewQuestion', quesID=quesID))'''
 
 @app.route('/question/<quesID>/', methods=['GET', 'POST'])
 @login_required
@@ -142,10 +161,6 @@ def viewQuestion(quesID):
     ansmet_obj = AnswerMethods(quesID)
     ans = ansmet_obj.get_answers(quesID)
     return render_template('question.html', question=ques, answers=ans, form=form)
-
-@app.route('/question/<quesID>/edit', methods=['GET', 'POST'])
-def editQuestionDescription(quesID):
-    form = QuestionForm()
 
 @app.route('/question/<quesID>/vote/', methods=['POST'])
 @login_required
