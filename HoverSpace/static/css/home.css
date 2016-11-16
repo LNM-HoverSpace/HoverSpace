@@ -31,7 +31,7 @@ body{
 	position: relative;
 	text-align: right;
 	left: 120px;
-	top:46px;
+	top:48px;
 }
 #tag_column{
 	padding-right: 10px;
@@ -48,4 +48,8 @@ body{
 	position: relative;
 	top: 24px;
 	left: 20px;
+}
+#tag_id{
+	position: relative;
+	left: 45px;
 }

@@ -61,5 +61,9 @@
 }
 #ans_form{
 	position: relative;
-	left: 40px;
+	left: 180px;
+}
+#submit_btn{
+	position: relative;
+	top: 5px;
 }
