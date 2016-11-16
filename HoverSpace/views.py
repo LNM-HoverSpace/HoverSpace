@@ -33,9 +33,10 @@ def home():
             if record['accepted_ans']:
                 story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(record['accepted_ans'])})
             feed.append(story)
+            topcontributors = USERS_COLLECTION.find().sort('karma', pymongo.DESCENDING).limit(10)
         except KeyError:
             pass
-    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form)
+    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form, topcontributors=topcontributors)
 
 @app.route('/search/<s>/', methods=['GET'])
 def search(s):
@@ -45,9 +46,9 @@ def search(s):
         l.append(q.getQuestion())
     return render_template('search.html', title='HoverSpace | Search', result=l)
 
-@app.route('/profile/', methods=['GET'])
-def profile():
-    user = USERS_COLLECTION.find_one({'_id': current_user.get_id()})
+@app.route('/profile/<userID>', methods=['GET'])
+def profile(userID):
+    user = USERS_COLLECTION.find_one({'_id': userID})
     quesPosted = user['quesPosted']
     for i in range(len(quesPosted)):
         quesPosted[i] = ObjectId(quesPosted[i])

@@ -32,9 +32,11 @@
       <div class = "media-object-section">
         <a id="Question" href = "{{ i['ques_url']}}">{{ i['short_description'] }}</a>
         <br>
-        <h6 id="postedBy">Posted By :{{ i['postedBy'] }}</h6>
-        <h6 id = "time_stamp">{{ i['timestamp'] }}</h6>
-        <h6 id = "ans_count">{{ i['ansCount'] }} Answers</h6>
+        <h6 id="postedBy">
+          Posted By: <a href="{{ url_for('profile', userID=i['postedBy']) }}">{{ i['postedBy'] }}</a>
+        </h6>
+        <h6 id="time_stamp">Posted On: {{ i['timestamp'].strftime('%Y-%m-%d') }}</h6>
+        <h6 id="ans_count">{{ i['ansCount'] }} Answers</h6>
       </div>
     </div>
   </div>
@@ -48,23 +50,17 @@
     <table class="table table-bordered">
     <thead>
       <tr>
-        <th>User</th>
+        <th>Name</th>
         <th>Karma</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>manish</td>
-        <td>23</td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>18</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>6</td>
-      </tr>
+      {% for name in topcontributors %}
+        <tr>
+          <td><a href="{{ url_for('profile', userID=name['postedBy']) }}">{{ name['_id'] }}</a></td>
+          <td>{{ name['karma'] }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
   </div>

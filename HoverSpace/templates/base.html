@@ -42,7 +42,7 @@
                             </form>
                             </div>
                             {% if current_user.is_authenticated %}
-                            <li><a id = "profile_page" href="{{ url_for('profile') }}">{{ current_user.get_id() }}</a></li>
+                            <li><a id = "profile_page" href="{{ url_for('profile', userID=current_user.get_id()) }}">{{ current_user.get_id() }}</a></li>
                             <li><a id = "post_ques" href="{{ url_for('postQuestion')}}">Post a Question</a></li>
                             <li><a id = "logout_url" href="{{ url_for('logout') }}">Logout</a></li>
                         {% else %}
