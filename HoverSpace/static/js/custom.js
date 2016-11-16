@@ -135,3 +135,24 @@ function setAnsFlag(ansID){
 		cache: false
 	});
 }
+
+function setAcceptedAns(quesID, ansID){
+	var URL = new String('/question/')
+	URL = URL.concat(quesID, '/setAccepted/', ansID)
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(status['status'] == 'set')
+				$(this).addClass('accepted-on')
+			else if(status['status'] == 'removed')
+				$(this).removeClass("accepted-on")
+			alert(status['message']);
+		},
+		cache: false
+	});
+}

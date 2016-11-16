@@ -36,6 +36,7 @@
         <span class="avote-count" name="avote-count">{{ answer['votes'] }}</span>
         <br>
         <button type="button" class="aflag">Flag as inappropiate</button>
+        <button type="button" class="accepted">Mark this answer as accepted</button>
       </div>
     </div>
     <br>
@@ -92,6 +93,11 @@
     $('.aflag').on('click', function(){
       setAnsFlag(this.parentElement.id);
     });
+
+    $('.accepted').on('click', function(){
+      setAcceptedAns(quesID, this.parentElement.id);
+    });
+
   </script>
 
   {% endblock %}
