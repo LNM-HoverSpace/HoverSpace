@@ -52,9 +52,17 @@ def profile(userID):
     quesPosted = user['quesPosted']
     for i in range(len(quesPosted)):
         quesPosted[i] = ObjectId(quesPosted[i])
+    
+    bookmarks = []
+    bques = user['bookmarks']
+    for i in range(0, len(bques)):
+        bques[i] = ObjectId(bques[i])
+    for q in QUESTIONS_COLLECTION.find({'_id': {'$in': bques}}):
+        bookmarks.append(q)
+
     ques = []
     for q in QUESTIONS_COLLECTION.find({'_id': {'$in': quesPosted}}):
-        ques.append(q)
+        ques.append(q) 
     data = {
         'userID': user['_id'],
         'fname': user['firstname'],
@@ -63,7 +71,7 @@ def profile(userID):
         'karma': user['karma'],
         'quesPosted': ques
     }
-    return render_template('profile.html', title='HoverSpace | Profile', data=data)
+    return render_template('profile.html', title='HoverSpace | Profile', data=data, bookmarks=bookmarks)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
