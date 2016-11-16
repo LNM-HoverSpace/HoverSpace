@@ -76,3 +76,12 @@ class QuestionMethods():
 
     def removeFlag(self, userID):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$pull': {'flaggedBy': userID}})
+
+    def getAcceptedAns(self):
+        return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['accepted_ans']
+
+    def setAcceptedAns(self, ansID):
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'accepted_ans': ObjectId(ansID)}})
+
+    def removeAcceptedAns(self):
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'accepted_ans': None}})        

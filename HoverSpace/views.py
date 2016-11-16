@@ -239,6 +239,21 @@ def setAnsFlag(ansID):
     else:
         return json.dumps({'flag': 'quesRemoved', 'message': 'This answer has been marked inappropiate by more than 10 users, so it is removed'})
 
+@app.route('/question/<quesID>/setAccepted/<ansID>', methods=['POST'])
+@login_required
+def setAcceptedAns(quesID, ansID):
+    usr = current_user.get_id()
+    ans_obj = UpdateAnswers(ansID)
+    postedBy = (ans_obj.getAnswer())['postedBy']
+    if usr != postedBy:
+        return json.dumps({'status': 'notAllowed', 'message': 'You are not allowed to set this answer as accepted.'})
+    ques_obj = QuestionMethods(quesID)
+    if str(ques_obj.getAcceptedAns()) == ansID:
+        ques_obj.removeAcceptedAns()
+        return json.dumps({'status': 'removed', 'message': 'Accepted answer removed'})
+    else:
+        ques_obj.setAcceptedAns(ansID)
+        return json.dumps({'status': 'set', 'message': 'You have marked this answer as accepted'})
 
 @lm.user_loader
 def load_user(username):
