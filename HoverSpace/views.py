@@ -14,6 +14,9 @@ from bson.objectid import ObjectId
 @app.route('/')
 @app.route('/home/', methods=['GET', 'POST'])
 def home():
+    form = SearchForm()
+    if request.method == "POST":
+        return redirect(url_for('search', s=form.srch_term.data))
     questions = QUESTIONS_COLLECTION.find({'flag': 'False'}).sort('timestamp', pymongo.DESCENDING)
     feed = list()
     for record in questions:
@@ -32,7 +35,15 @@ def home():
             feed.append(story)
         except KeyError:
             pass
-    return render_template('home.html', title='HoverSpace | Home', feed=feed)
+    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form)
+
+@app.route('/search/<s>/', methods=['GET'])
+def search(s):
+    l = []
+    for selected in srch.search(s):
+        q = QuestionMethods(selected)
+        l.append(q.getQuestion())
+    return render_template('search.html', title='HoverSpace | Search', result=l)
 
 @app.route('/profile/', methods=['GET'])
 def profile():
@@ -52,18 +63,6 @@ def profile():
         'quesPosted': ques
     }
     return render_template('profile.html', title='HoverSpace | Profile', data=data)
-
-@app.route('/search/', methods=['GET', 'POST'])
-def question_searching():
-    form = SearchForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        l = []
-        for selected in srch.search(form.search_text.data):
-            print (selected)
-            q = QuestionMethods(selected)
-            l.append(q.getQuestion())
-        return render_template('search.html', title='HoverSpace | Search', form=form, result=l)
-    return render_template('search.html', title='HoverSpace | Search', form=form, result=[])
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
