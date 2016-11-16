@@ -1,4 +1,4 @@
-from HoverSpace.application import app, lm
+from HoverSpace.application import app, lm, srch
 import pymongo
 import json
 from flask import request, redirect, render_template, url_for, flash, session
@@ -7,7 +7,7 @@ from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_CO
 from HoverSpace.questions import Question, QuestionMethods
 from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
-from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm
+from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm, SearchForm
 from bson.objectid import ObjectId
 
 
@@ -28,22 +28,42 @@ def home():
                 'timestamp': record['timestamp']
             }
             if record['accepted_ans']:
-                story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(accepted_ans)})
+                story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(record['accepted_ans'])})
             feed.append(story)
         except KeyError:
             pass
     return render_template('home.html', title='HoverSpace | Home', feed=feed)
 
-'''@app.route('/profile/', methods=['GET'])
-@login_required
+@app.route('/profile/', methods=['GET'])
 def profile():
     user = USERS_COLLECTION.find_one({'_id': current_user.get_id()})
-    ques, ans = [], []
-    for q_obj in user['quesPosted']:
-        q = QuestionMethods(q_obj)
-        ques.append(q.getQuestion())
-    return redirect(url_for('home'))
-    #return render_template('profile.html', title='HoverSpace | Profile', user=user)'''
+    quesPosted = user['quesPosted']
+    for i in range(len(quesPosted)):
+        quesPosted[i] = ObjectId(quesPosted[i])
+    ques = []
+    for q in QUESTIONS_COLLECTION.find({'_id': {'$in': quesPosted}}):
+        ques.append(q)
+    data = {
+        'userID': user['_id'],
+        'fname': user['firstname'],
+        'lname': user['lastname'],
+        'email': user['email'],
+        'karma': user['karma'],
+        'quesPosted': ques
+    }
+    return render_template('profile.html', title='HoverSpace | Profile', data=data)
+
+@app.route('/search/', methods=['GET', 'POST'])
+def question_searching():
+    form = SearchForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        l = []
+        for selected in srch.search(form.search_text.data):
+            print (selected)
+            q = QuestionMethods(selected)
+            l.append(q.getQuestion())
+        return render_template('search.html', title='HoverSpace | Search', form=form, result=l)
+    return render_template('search.html', title='HoverSpace | Search', form=form, result=[])
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -96,6 +116,7 @@ def postQuestion():
             tags = quesmet_obj.getTags(form.tags)
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
+            srch.add_string(quesID, form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
@@ -111,6 +132,7 @@ def viewQuestion(quesID):
         username = current_user.get_id()
         ans_obj = Answers(username, quesID, form.ans_text.data)
         ansID = ans_obj.post_answer()
+        return redirect(url_for('viewQuestion', quesID=quesID))
 
     ques_obj = QuestionMethods(quesID)
     ques = ques_obj.getQuestion()
@@ -171,7 +193,7 @@ def updateAnsVotes(ansID):
     return json.dumps({'type': status['type'], 'count': votesCount})
 
 
-@app.route('/question/<quesID>/bookmark/', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/bookmark/', methods=['POST'])
 @login_required
 def setBookmark(quesID):
     usr = User(current_user.get_id())
@@ -183,15 +205,15 @@ def setBookmark(quesID):
         return json.dumps({'status': 'false', 'message': 'Bookmark removed'})
 
 
-@app.route('/question/<quesID>/flag/', methods=['GET', 'POST'])
+@app.route('/question/<quesID>/flag/', methods=['POST'])
 @login_required
-def setFlag(quesID):
+def setQuesFlag(quesID):
     usr = current_user.get_id()
     ques_obj = QuestionMethods(quesID)
     postedBy = (ques_obj.getQuestion())['postedBy']
     if usr == postedBy:
         return json.dumps({'flag': 'notAllowed', 'message': 'You cannot flag your own question'})
-    fl = ques_obj.addFlaggedBy(usr)
+    fl = ques_obj.addFlaggedBy(usr, postedBy)
     if fl=='flagged':
         return json.dumps({'flag': 'flagged', 'message': 'You have marked this question inappropiate'})
     elif fl=='alreadyFlagged':
@@ -200,6 +222,39 @@ def setFlag(quesID):
     else:
         return json.dumps({'flag': 'quesRemoved', 'message': 'This question has been marked inappropiate by more than 10 users, so it is removed'})
 
+
+@app.route('/answer/<ansID>/flag/', methods=['POST'])
+@login_required
+def setAnsFlag(ansID):
+    usr = current_user.get_id()
+    ans_obj = UpdateAnswers(ansID)
+    postedBy = (ans_obj.getAnswer())['postedBy']
+    if usr == postedBy:
+        return json.dumps({'flag': 'notAllowed', 'message': 'You cannot flag your own answer'})
+    fl = ans_obj.addFlaggedBy(usr, postedBy)
+    if fl=='flagged':
+        return json.dumps({'flag': 'flagged', 'message': 'You have marked this answer inappropiate'})
+    elif fl=='alreadyFlagged':
+        ans_obj.removeFlag(usr)
+        return json.dumps({'flag': 'flagRemoved', 'message': 'Flag removed'})
+    else:
+        return json.dumps({'flag': 'quesRemoved', 'message': 'This answer has been marked inappropiate by more than 10 users, so it is removed'})
+
+@app.route('/question/<quesID>/setAccepted/<ansID>', methods=['POST'])
+@login_required
+def setAcceptedAns(quesID, ansID):
+    usr = current_user.get_id()
+    ans_obj = UpdateAnswers(ansID)
+    postedBy = (ans_obj.getAnswer())['postedBy']
+    if usr != postedBy:
+        return json.dumps({'status': 'notAllowed', 'message': 'You are not allowed to set this answer as accepted.'})
+    ques_obj = QuestionMethods(quesID)
+    if str(ques_obj.getAcceptedAns()) == ansID:
+        ques_obj.removeAcceptedAns()
+        return json.dumps({'status': 'removed', 'message': 'Accepted answer removed'})
+    else:
+        ques_obj.setAcceptedAns(ansID)
+        return json.dumps({'status': 'set', 'message': 'You have marked this answer as accepted'})
 
 @lm.user_loader
 def load_user(username):

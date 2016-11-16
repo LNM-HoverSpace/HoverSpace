@@ -1,96 +1,127 @@
 {% extends "base.html"%}
 {% block content %}
-  
-  <div id="ques_head" class="container">
-        <img id="ques_link_avatar" src="/static/img/avatar.png">
-        <label id="short" for="short_description">{{ question['short_description'] }}</label>
+<hr/>
+<link rel="stylesheet" type="text/css" href="../../static/css/question.css">
+  <div id = "ques_head" class="row">
+    <div class = "col-md-10 ">
+    <div id = "upvote_downvote" class = "col-md-1 col-md-offset-1">
+        <input type = "submit" id = "upvote" class = "qvote-up">
         <br>
-        <label id="long" for="long_description">Long Description : {{ question['long_description'] }}</label>
+        <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
         <br>
-        <label id="ques_posted_by">{{ question['postedBy'] }}</label>
-        <br>
-        <div class="ques vote-buttons">
-          <button type="button" class="qvote-up">Upvote</button>
-          <button type="button" class="qvote-down">Downvote</button>
-          <span class="qvote-count" name="qvote-count" id="qvote-count">{{ question['votes'] }}</span>
-        </div>
-        <div class="bookmark-button">
-          <input type="button" class="bookmark" value="Bookmark">
-        </div>
-        <div class="ques set-as-flag-button">
-          <input type="button" class="qflag" value="Flag as inappropiate">
-        </div>
-        <script type="text/javascript" src="../../static/js/custom.js"></script>
-  </div>
-
-  <br>
-  {% for answer in answers %}
-    <div id = "Ques_ans_div" class = "container">
-      <br><br>
-      <img id = "answer_avatar" src="/static/img/avatar.png">
-      <label id = "answer_label" for = "answer">{{ answer['ansText'] }}</label>
-      <br>
-      <label id = "posted_label" for="postedby"> {{ answer['postedBy'] }}</label>
-      <br><br>
-      <div class="ans vote-buttons" id="{{ answer['_id'] }}">
-        <button type="button" class="avote-up">Upvote</button>
-        <button type="button" class="avote-down">Downvote</button>
-        <span class="avote-count" name="avote-count">{{ answer['votes'] }}</span>
-      </div>
-      <div class="ans flag-button">
-        <input type="button" class="aflag" value="Flag as inappropiate">
-      </div>  
-    </div>
-    <br>
-  {% endfor %}
-  <br>
-  <form action="" method="POST" name="question">
-    <div class = "form-group">
-      {{ form.hidden_tag() }}
-      {% for field in form if field.widget.input_type != 'hidden' %}
-        <div class="control-group">
-          <label class="control-label" for="{{ field.name }}" > {{ field.label }}</label>
-          <div class="control">
-            {{ field(class_="form-control input-md") }}
+        <input type = "submit" id= "downvote" class = "qvote-down">
+    </div> 
+    <div class = "col-md-6">
+       <div class = "media-object">
+      <div class = "media-object-section">
+          <div id = "avatar" class="thumbnail pull-left">
+                <img  id = "avatar_ques" src="http://placehold.it/80x80&text=[img]" />
           </div>
-        </div>
-      {% endfor %}
+      </div>
+      <div class = "media-object-section">
+        <h5 id = "short_desc">{{ question['short_description'] }}</h5>
+        <br>
+        <h6 id = "long_desc">{{ question['long_description'] }}</h6>
+        <h6 id="postedBy">Posted By : {{ question['postedBy'] }}</h6>
+        <h6 id = "time_stamp">PostedOn:{{ question['time_stamp'] }}</h6>
+      </div>
+      </div>
     </div>
-    <div class="control-group">
-      <button type="Submit" id="submit_btn" class="btn btn-default">Submit</button>
     </div>
-  </form>
+    </div>
+  <br>  
+  <hr/>
+  <div class = "row">
+  {% for answer in answers %}
+    <div id = "Ques_ans_div" class = "row">
+          <br>
+          <hr/>
+          <div class = "col-md-8 ">
+            <div id = "upvote_downvote" class = "col-md-1 col-md-offset-3">
+            <input id = "upvote" type = "button" class = "vote-up">
+            <br>
+            <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
+            <br>
+            <input type = "button" id= "downvote" class = "vote-down">
+            </div> 
+          <div class = "col-md-6">
+            <div class = "media-object">
+              <div class = "media-object-section">
+                <div id = "avatar_ans" class="thumbnail pull-left">
+                  <img  src="http://placehold.it/80x80&text=[img]" />
+                </div>
+              </div>
+              <div class = "media-object-section">
+                <h5 id = "answer">{{ answer['ansText'] }}</h5>
+                <br>
+                <h6 id="postedBy_ans">Posted By : {{ answer['postedBy'] }}</h6>
+                <h6 id = "time_stamp_ans">PostedOn:{{ answer['time_stamp'] }}</h6>
+              </div>
+            </div>
+            </div>
+            </div>
+    </div>
+          {% endfor %}
+          </div>
+          <div class = "row">
+          <div class="col-md-8">
+          <br>
+                <form id = "ans_form" action="" method="POST" name="question">
+          <div class = "form-group">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+              <div class="control-group">
+                <label class="control-label" for="{{ field.name }}" > {{ field.label }}</label>
+                <div class="control">
+                  {{ field(class_="form-control input-md") }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="control-group">
+            <button type="Submit" id="submit_btn" class="btn btn-default">Submit</button>
+          </div>
+          </form>
+          </div>
+          </div>
+          <script type="text/javascript">
+            var quesID = "{{ question['_id'] }}";
+            var type = new String("");
+            $('.edit-short').on('click', function(){
+            updateShortDescription(quesID, "{{ question['short_description'] }}");
+            });
 
-  <script type="text/javascript">
-    var quesID = "{{ question['_id'] }}";
-    var type = new String("");
-    $('.qvote-up').on('click', function(){
-      updateQuesVotes(quesID, type="up");
-    });
+            $('.qvote-up').on('click', function(){
+            updateQuesVotes(quesID, type="up");
+            });
 
-    $('.qvote-down').on('click', function(){
-      updateQuesVotes(quesID, type="down");
-    });
+            $('.qvote-down').on('click', function(){
+            updateQuesVotes(quesID, type="down");
+            });
 
-    $('.bookmark').on('click', function(){
-      setBookmark(quesID);
-    });
+            $('.bookmark').on('click', function(){
+            setBookmark(quesID);
+            });
 
-    $('.qflag').on('click', function(){
-      setQuesFlag(quesID);
-    });
+            $('.qflag').on('click', function(){
+            setQuesFlag(quesID);
+            });
 
-    $('.avote-up').on('click', function(){
-      updateAnsVotes(this.parentElement.id, type="up");
-    });
+            $('.avote-up').on('click', function(){
+            updateAnsVotes(this.parentElement.id, type="up");
+            });
 
-    $('.avote-down').on('click', function(){
-      updateAnsVotes(this.parentElement.id, type="down");
-    });
+            $('.avote-down').on('click', function(){
+            updateAnsVotes(this.parentElement.id, type="down");
+            });
 
-    $('.aflag').on('click', function(){
-      setAnsFlag(this.parentElement.id);
-    });
-  </script>
+            $('.aflag').on('click', function(){
+            setAnsFlag(this.parentElement.id);
+            });
 
+            $('.accepted').on('click', function(){
+            setAcceptedAns(quesID, this.parentElement.id);
+            });
+
+          </script> 
   {% endblock %}

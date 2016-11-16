@@ -1,5 +1,9 @@
 $.ajaxSetup({cache: false});
 
+function updateShortDescription(quesID, short_des){
+	document.removeChild(".edit-short")
+}
+
 function updateQuesVotes(quesID, type){
 	var URL = new String('/question/')
 	URL = URL.concat(quesID, '/vote/')
@@ -111,3 +115,44 @@ function updateAnsVotes(ansID, type){
 	});
 }
 
+function setAnsFlag(ansID){
+	var URL = new String('/answer/')
+	URL = URL.concat(ansID, '/flag/')
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(status['flag'] == 'flagged')
+				$(this).addClass('flagged')
+			else if(status['flag'] == 'flagRemoved')
+				$(this).removeClass("flagged")
+			alert(status['message']);
+		},
+		cache: false
+	});
+}
+
+function setAcceptedAns(quesID, ansID){
+	var URL = new String('/question/')
+	URL = URL.concat(quesID, '/setAccepted/', ansID)
+	console.log(URL)
+	$.ajax({
+		type: 'POST',
+		url: URL,
+		contentType: 'application/json; charset=utf-8',
+		success: function(status){
+			console.log(status)
+			status = JSON.parse(status)
+			if(status['status'] == 'set')
+				$(this).addClass('accepted-on')
+			else if(status['status'] == 'removed')
+				$(this).removeClass("accepted-on")
+			alert(status['message']);
+		},
+		cache: false
+	});
+}
