@@ -140,6 +140,9 @@ def viewQuestion(quesID):
     ans = ansmet_obj.get_answers(quesID)
     return render_template('question.html', question=ques, answers=ans, form=form)
 
+@app.route('/question/<quesID>/edit', methods=['GET', 'POST'])
+def editQuestionDescription(quesID):
+    form = QuestionForm()
 
 @app.route('/question/<quesID>/vote/', methods=['POST'])
 @login_required

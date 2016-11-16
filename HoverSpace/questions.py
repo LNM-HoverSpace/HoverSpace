@@ -39,6 +39,10 @@ class QuestionMethods():
         votes = (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['votes']
         return votes
 
+    def editQuestion(self, short_desc, long_desc):
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'short_description':
+            short_desc, 'long_description': long_desc}})
+
     def update_comments(self, commentID):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$addToSet': {'commentID': commentID}})
 
@@ -55,7 +59,7 @@ class QuestionMethods():
 
     def setFlag(self, flag):
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'flag': flag}})
-            
+
     def getFlag(self):
         return (QUESTIONS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['flag']
 
@@ -84,4 +88,4 @@ class QuestionMethods():
         QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'accepted_ans': ObjectId(ansID)}})
 
     def removeAcceptedAns(self):
-        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'accepted_ans': None}})        
+        QUESTIONS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'accepted_ans': None}})
