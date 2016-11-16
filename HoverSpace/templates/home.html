@@ -4,6 +4,8 @@
 <hr/>
 <div class = row>
 <div id = "tag_column" class = "col-lg-2">
+    <h4 id = "tag_id">- Tags</h4>
+    <hr/>
         <ul id="tag_list">
           <li>python</li>
           <li>python</li>
@@ -30,7 +32,7 @@
       <div class = "media-object-section">
         <a id="Question" href = "{{ i['ques_url']}}">{{ i['short_description'] }}</a>
         <br>
-        <h6 id="postedBy">{{ i['postedBy'] }}</h6>
+        <h6 id="postedBy">Posted By :{{ i['postedBy'] }}</h6>
         <h6 id = "time_stamp">{{ i['timestamp'] }}</h6>
         <h6 id = "ans_count">{{ i['ansCount'] }} Answers</h6>
       </div>
