@@ -273,11 +273,10 @@ def setAnsFlag(ansID):
 @login_required
 def setAcceptedAns(quesID, ansID):
     usr = current_user.get_id()
-    ans_obj = UpdateAnswers(ansID)
-    postedBy = (ans_obj.getAnswer())['postedBy']
+    ques_obj = QuestionMethods(quesID)
+    postedBy = (ques_obj.getQuestion())['postedBy']
     if usr != postedBy:
         return json.dumps({'status': 'notAllowed', 'message': 'You are not allowed to set this answer as accepted.'})
-    ques_obj = QuestionMethods(quesID)
     if str(ques_obj.getAcceptedAns()) == ansID:
         ques_obj.removeAcceptedAns()
         return json.dumps({'status': 'removed', 'message': 'Accepted answer removed'})

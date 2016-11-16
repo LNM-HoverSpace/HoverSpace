@@ -9,10 +9,10 @@ class LoginForm(FlaskForm):
 
 class SignUpForm(FlaskForm):
     username = StringField('Username', [DataRequired(), Length(min=4, max=25)])
-    email = StringField('Email Address', [DataRequired(), Email(), Length(min=6, max=35)])
+    email = StringField('Email Address', [DataRequired(), Email(), Length(max=35)])
     firstname = TextField("First name", [DataRequired()])
     lastname = TextField("Last name", [DataRequired()])
-    password = PasswordField('Password', [DataRequired(), Length(min=6)])
+    password = PasswordField('Password', [DataRequired(), Length(min=4)])
 
 class QuestionForm(FlaskForm):
     short_description = TextAreaField('Short Desciption', validators=[DataRequired(), Length(max=100)])
