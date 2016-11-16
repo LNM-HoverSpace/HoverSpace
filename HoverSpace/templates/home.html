@@ -50,7 +50,7 @@
     <tbody>
       {% for name in topcontributors %}
         <tr>
-          <td><a href="{{ url_for('profile', userID=name['postedBy']) }}">{{ name['_id'] }}</a></td>
+          <td><a href="{{ url_for('profile', userID=name['_id']) }}">{{ name['_id'] }}</a></td>
           <td>{{ name['karma'] }}</td>
         </tr>
       {% endfor %}
