@@ -3,7 +3,7 @@
 <hr/>
 <link rel="stylesheet" type="text/css" href="../../static/css/question.css">
   <div id = "ques_head" class="row">
-    <div class = "col-md-10 ">
+    <div class = "col-md-9 ">
     <div id = "upvote_downvote" class = "col-md-1 col-md-offset-1">
         <input type = "submit" id = "upvote" class = "qvote-up">
         <br>
@@ -22,8 +22,8 @@
         <h5 id = "short_desc">{{ question['short_description'] }}</h5>
         <br>
         <h6 id = "long_desc">{{ question['long_description'] }}</h6>
-        <h6 id="postedBy">Posted By : {{ question['postedBy'] }}</h6>
-        <h6 id = "time_stamp">PostedOn:{{ question['time_stamp'] }}</h6>
+        <h6 id="postedBy">Posted By :{{ question['postedBy'] }}</h6>
+        <h6 id = "time_stamp">{{ question['timestamp'] }}</h6>
       </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
             <div id = "upvote_downvote" class = "col-md-1 col-md-offset-3">
             <input id = "upvote" type = "button" class = "vote-up">
             <br>
-            <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
+            <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ answer['votes'] }}</span>
             <br>
             <input type = "button" id= "downvote" class = "vote-down">
             </div> 
@@ -54,8 +54,8 @@
               <div class = "media-object-section">
                 <h5 id = "answer">{{ answer['ansText'] }}</h5>
                 <br>
-                <h6 id="postedBy_ans">Posted By : {{ answer['postedBy'] }}</h6>
-                <h6 id = "time_stamp_ans">PostedOn:{{ answer['time_stamp'] }}</h6>
+                <h6 id="postedBy_ans">Posted By :{{ answer['postedBy'] }}</h6>
+                <h6 id = "time_stamp_ans">{{ answer['timestamp'] }}</h6>
               </div>
             </div>
             </div>
