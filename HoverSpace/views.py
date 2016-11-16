@@ -7,6 +7,7 @@ from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_CO
 from HoverSpace.questions import Question, QuestionMethods
 from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
+from HoverSpace.tags import Tag
 from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm, SearchForm
 from bson.objectid import ObjectId
 
@@ -112,16 +113,18 @@ def postQuestion():
             if question:
                 flash("This question has already been asked", category='error')
                 return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
-            quesmet_obj = QuestionMethods('DUMMY_QUESTION')
-            tags = quesmet_obj.getTags(form.tags)
+            tags = request.form.getlist('tag')
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
+            tag_obj = Tag(quesID, tags)
+            tag_obj.addQuestion()
             srch.add_string(quesID, form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
             return redirect(url_for('login'))
-    return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
+    tag_choices = ['Science', 'Technology', 'Travel', 'Fiction', 'Education', 'Government', 'Weather', 'Politics', 'Current Affairs', 'History', 'Nature', 'Food', 'Outing']
+    return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form, choices=tag_choices)
 
 
 @app.route('/question/<quesID>/', methods=['GET', 'POST'])

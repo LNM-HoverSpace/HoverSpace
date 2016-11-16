@@ -9,4 +9,5 @@ db = DATABASE.get_default_database()
 USERS_COLLECTION = db.users
 QUESTIONS_COLLECTION = db.questions
 ANSWERS_COLLECTION = db.answers
+TAGS_COLLECTION = db.tags
 COMMENT_COLLECION = db.comments
