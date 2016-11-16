@@ -10,5 +10,6 @@ lm.init_app(app)
 lm.login_view = 'login'
 
 srch = Searching(10**9 + 7, 9999991, 31, 97)
+srch.add_all()
 
 from HoverSpace import views, questions

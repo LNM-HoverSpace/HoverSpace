@@ -1,4 +1,5 @@
 from collections import defaultdict
+from HoverSpace.methods import QUESTIONS_COLLECTION
 
 class Searching:
     def __init__(self, m1, m2, p1, p2):
@@ -92,3 +93,7 @@ class Searching:
             for key, value in dd.items():
                 l.append(key)
         return l
+
+    def add_all(self):
+		for entry in QUESTIONS_COLLECTION.find():
+    		srch.add_string(str(entry['_id']), entry['short_description'])
