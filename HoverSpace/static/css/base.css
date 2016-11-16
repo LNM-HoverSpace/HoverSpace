@@ -1,0 +1,107 @@
+
+.navbar{
+	min-height: 10px;
+}
+.navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
+.navbar {min-height:40px !important}
+#post_ques{
+	border-radius: 18px;
+	position: relative;
+	top: 5px;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+	left: 300px;
+}
+#post_ques:hover{
+	background-color: #0fffff;
+	color: #ffffff;
+}
+#logout_url{
+	border-radius: 18px;
+	position: relative;
+	top: 5px;
+	left: 8px;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+	left: 310px;
+}
+#logout_url:hover{
+	background-color: #0fffff;
+	color: #ffffff;
+}
+body{
+	background:url("static/img/back.jpg");
+	font-size: 2;
+	padding-top: 100px;
+	padding-bottom: 20px;
+	background-color:#ffffff
+	background-image:url("static/img/back.jpg");
+	background-size: cover;
+}
+#logo{
+	position: relative;
+	left: 40px;
+	padding-bottom: 20px;
+	text-align: center;
+	margin-top: 1px;
+	margin-bottom: -4px;
+	margin-left: -70px;
+}
+#login_url{
+	border-radius: 10px;
+	position: relative;
+	top: 5px;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+}
+#login_url:hover{
+	background-color: #0fffff;
+	color: white;
+}
+#signup_url{
+	border-radius: 10px;
+	position: relative;
+	top: 5px;
+	left: 8px;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+}
+#signup_url:hover{
+	background-color: #0fffff;
+	color: white;
+}
+#Question{
+	position: relative;
+	left: 20px;
+	top: 20px;
+	font-size: 14px;
+	color: black;
+}
+#login_btn{
+	background-color: #6bc1ff;
+}
+#upvote_downvote{
+	position: relative;
+	left: 20px;
+}
+#profile_page{
+	position: relative;
+	top: 5px;
+	border-radius: 18px;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+	right:10px;
+	left: 280px;	
+}
+#profile_page:hover{
+	background-color: #0fffff;
+	color: #ffffff;
+}
+#search{
+	position: relative;
+	right: 170px;
+}
+#srch-term{
+	position: relative;
+	width: 400px;
+}

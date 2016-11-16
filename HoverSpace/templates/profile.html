@@ -1,0 +1,44 @@
+{% extends "base.html"%}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="../../static/css/profile.css">
+<div class = row>
+	<div class = "col-md-6">
+	{% for q in data['quesPosted'] %}
+	<hr/>
+	<div id = "upvote_downvote" class = "col-md-1">
+        <img id = "upvote" src="../../static/img/upvote.png">
+        <br>
+        <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ q['votes'] }}</span>
+        <br>
+        <img  id= "downvote" src="../../static/img/downvote.png" >
+    </div> 	
+	<div class="media-object">
+	<div class = "media-object-section">
+		<a id = "prof_ques" href="{{ url_for('viewQuestion', quesID=q['_id']) }}">{{ q['short_description'] }}</a>
+        <h6 id = "time_stamp">:{{ q['timestamp'] }}</h6>
+        <h6 id="ansID">{{ q['ansID'] | length }} Answers</h6>
+      </div>
+      </div>
+      <br>
+	{% endfor %}
+	</div>
+	<div id = "profile_column" class = "col-md-4 col-md-offset-2">
+		<div id = "profile_pic" class = "row">
+			<div class = "col-md-4">
+				<div id = "avatar_profile" class="thumbnail pull-left">
+                	<img  src="http://placehold.it/80x80&text=[img]" />
+          		</div>
+			</div>
+		</div>
+		<hr/>
+		<h4 id = "user_id">{{data['userID']}}</h4>
+		<hr/>
+		<h4 id = "name">{{data['fname']}} {{data['lname']}}</h4>
+		<hr/>
+		<h4 id = "email">{{data['email']}}</h4>
+		<hr/>
+		<h4 id = "karma">Karma Points : {{data['karma']}}</h4>
+		<hr/>
+	</div>
+</div>
+{% endblock %}
