@@ -2,18 +2,18 @@
 {% block content %}
 <hr/>
 <link rel="stylesheet" type="text/css" href="../../static/css/question.css">
-<script src="https://use.fontawesome.com/5e5d2ddae6.js"></script>
+<script type="text/javascript" src="../../static/js/custom.js"></script>
   <div id = "ques_head" class="row">
     <div class = "col-md-9 ">
     <div id = "upvote_downvote" class = "col-md-1 col-md-offset-1">
         <input type = "image" id = "upvote" class = "qvote-up" src="../../static/img/upvote.png">
         <br>
-        <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ question['votes'] }}</span>
+        <span class="vote-count" type="button" name="qvote-count" id="qvote-count">{{ question['votes'] }}</span>
         <br>
         <input type = "image" id= "downvote" class = "qvote-down" src="../../static/img/downvote.png">
         <br>
-        <button id = "bookmark_ques" type="button" >Bookmark</button>
-        <button id = "flag_ques" type="button" >Flag</button>
+        <button type="button" id="qbookmark" class="qbookmark">Bookmark</button>
+        <button type="button" id="qflag" class="qflag">Flag</button>
     </div> 
     <div class = "col-md-6">
        <div class = "media-object">
@@ -26,33 +26,33 @@
         <h5 id = "short_desc">{{ question['short_description'] }}</h5>
         <br>
         <h6 id = "long_desc">{{ question['long_description'] }}</h6>
-        <h6 id="postedBy">Posted By :{{ question['postedBy'] }}</h6>
-        <h6 id = "time_stamp">{{ question['timestamp'] }}</h6>
+        <h6 id="postedBy">Posted By: 
+          <a id="quesPostedBy" href="{{ url_for('profile', userID=question['postedBy']) }}">{{ question['postedBy'] }}</a></h6>
+        <h6 id = "time_stamp">Posted On: {{ question['timestamp'].strftime('%Y-%m-%d') }}</h6>
       </div>
       </div>
     </div>
     </div>
-    </div>
-  <br>  
+    </div>  
   <hr/>
+  <h3 id = "answer" >Answers:</h3>
   <div class = "row">
   {% for answer in answers %}
     <div id = "Ques_ans_div" class = "row">
-          <br>
           <hr/>
-          <div class = "col-md-8 ">
-            <div id = "upvote_downvote" class = "col-md-1 col-md-offset-3">
-            <input id = "upvote" type = "image" class = "vote-up" src="../../static/img/upvote.png">
+          <div class="col-md-8 ">
+            <div id="{{ answer['_id'] }}" class="col-md-1 col-md-offset-3">
+            <input id="qvote-up" type="image" class="avote-up" src="../../static/img/upvote.png">
             <br>
-            <span class="vote-count" type = "button" name="vote-count" id="vote-count">{{ answer['votes'] }}</span>
+            <span class="avote-count" type="button" name="vote-count" id="vote-count">{{ answer['votes'] }}</span>
             <br>
-            <input type = "image" id= "downvote" class = "vote-down" src="../../static/img/downvote.png">
+            <input type="image" id="qvote-down" class="avote-down" src="../../static/img/downvote.png">
             <br>
-            <button id = "bookmark_ans" type="button" >Accepted</button>
-            <button id = "flag_ans" type="button" >Flag</button>
+            <button id="bookmark_ans" class="accepted" type="button" >Set as Accepted</button>
+            <button id="flag_ans" class="aflag" type="button" >Flag as inappropiate</button>
             </div> 
           <div class = "col-md-6">
-            <div class = "media-object">
+            <div class= "media-object">
               <div class = "media-object-section">
                 <div id = "avatar_ans" class="thumbnail pull-left">
                   <img  src="http://placehold.it/80x80&text=[img]" />
@@ -61,8 +61,9 @@
               <div class = "media-object-section">
                 <h5 id = "answer">{{ answer['ansText'] }}</h5>
                 <br>
-                <h6 id="postedBy_ans">Posted By :{{ answer['postedBy'] }}</h6>
-                <h6 id = "time_stamp_ans">{{ answer['timestamp'] }}</h6>
+                <h6 id="postedBy_ans">Posted By :
+                  <a id="quesPostedBy" href="{{ url_for('profile', userID=question['postedBy']) }}">{{ answer['postedBy'] }}</a></h6>
+                <h6 id = "time_stamp_ans">Posted On: {{ answer['timestamp'].strftime('%Y-%m-%d') }}</h6>
               </div>
             </div>
             </div>
@@ -106,7 +107,7 @@
             updateQuesVotes(quesID, type="down");
             });
 
-            $('.bookmark').on('click', function(){
+            $('.qbookmark').on('click', function(){
             setBookmark(quesID);
             });
 
