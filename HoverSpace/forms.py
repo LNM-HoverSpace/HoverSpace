@@ -25,4 +25,4 @@ class AnswerForm(FlaskForm):
     ans_text = TextAreaField('Write your answer here: ', description='Write your answer here', validators=[DataRequired(), Length(max=1000)])
 
 class SearchForm(FlaskForm):
-    search_text = TextAreaField('Search: ', validators=[DataRequired(), Length(min=3)])
+    srch_term = TextAreaField('Search: ', validators=[DataRequired(), Length(min=3)])
