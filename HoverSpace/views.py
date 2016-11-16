@@ -7,6 +7,7 @@ from HoverSpace.models import USERS_COLLECTION, QUESTIONS_COLLECTION, ANSWERS_CO
 from HoverSpace.questions import Question, QuestionMethods
 from HoverSpace.answers import Answers, AnswerMethods, UpdateAnswers
 from HoverSpace.user import User
+from HoverSpace.tags import Tag
 from HoverSpace.forms import LoginForm, SignUpForm, QuestionForm, AnswerForm, SearchForm
 from bson.objectid import ObjectId
 
@@ -37,13 +38,14 @@ def home():
             if record['accepted_ans']:
                 story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(record['accepted_ans'])})
             feed.append(story)
+            topcontributors = USERS_COLLECTION.find().sort('karma', pymongo.DESCENDING).limit(10)
         except KeyError:
             pass
-    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form)
+    return render_template('home.html', title='HoverSpace | Home', feed=feed, form=form, topcontributors=topcontributors)
 
-@app.route('/profile/', methods=['GET'])
-def profile():
-    user = USERS_COLLECTION.find_one({'_id': current_user.get_id()})
+@app.route('/profile/<userID>', methods=['GET'])
+def profile(userID):
+    user = USERS_COLLECTION.find_one({'_id': userID})
     quesPosted = user['quesPosted']
     for i in range(len(quesPosted)):
         quesPosted[i] = ObjectId(quesPosted[i])
@@ -107,16 +109,18 @@ def postQuestion():
             if question:
                 flash("This question has already been asked", category='error')
                 return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
-            quesmet_obj = QuestionMethods('DUMMY_QUESTION')
-            tags = quesmet_obj.getTags(form.tags)
+            tags = request.form.getlist('tag')
             ques_obj = Question(username, form.short_description.data, form.long_description.data, tags)
             quesID = ques_obj.postQuestion()
+            tag_obj = Tag(quesID, tags)
+            tag_obj.addQuestion()
             srch.add_string(quesID, form.short_description.data)
             flash("Your question has been successfully posted.", category='success')
             return redirect(url_for('viewQuestion', quesID=quesID))
         except KeyError:
             return redirect(url_for('login'))
-    return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form)
+    tag_choices = ['Science', 'Technology', 'Travel', 'Fiction', 'Education', 'Government', 'Weather', 'Politics', 'Current Affairs', 'History', 'Nature', 'Food', 'Outing']
+    return render_template('post-a-question.html', title='HoverSpace | Post a Question', form=form, choices=tag_choices)
 
 @app.route('/question/<quesID>/edit/', methods=['GET', 'POST'])
 @login_required
