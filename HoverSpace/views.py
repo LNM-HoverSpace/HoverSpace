@@ -28,7 +28,7 @@ def home():
                 'timestamp': record['timestamp']
             }
             if record['accepted_ans']:
-                story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(accepted_ans)})
+                story['answer'] = ANSWERS_COLLECTION.find_one({'_id': ObjectId(record['accepted_ans'])})
             feed.append(story)
         except KeyError:
             pass
@@ -59,9 +59,10 @@ def question_searching():
     if request.method == 'POST' and form.validate_on_submit():
         l = []
         for selected in srch.search(form.search_text.data):
+            print (selected)
             q = QuestionMethods(selected)
             l.append(q.getQuestion())
-        return redirect(url_for('question_searching', form=form, result=l))
+        return render_template('search.html', title='HoverSpace | Search', form=form, result=l)
     return render_template('search.html', title='HoverSpace | Search', form=form, result=[])
 
 @app.route('/login/', methods=['GET', 'POST'])
