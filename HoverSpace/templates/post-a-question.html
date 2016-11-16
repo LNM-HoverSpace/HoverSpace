@@ -17,6 +17,14 @@
                   </div>
                 </div>
                 {% endfor %}
+                <br>
+                <div id="members">
+                  <p><strong>Select Tags: </strong></p>
+                    {% for i in choices %}
+                        <input type="checkbox" name="tag" value="{{i}}">{{ i }}
+                        <br>
+                    {% endfor %}
+                </div>
                 <div class="control-group">
                 <br>
                   <button type="submit" id="submit_btn" class="btn btn-default">Submit</button>

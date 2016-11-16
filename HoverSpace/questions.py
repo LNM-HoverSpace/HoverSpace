@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 
 class Question():
     #  quesID, short_description, long_description, postedBy, timestamp, ansID, upvotes, downvotes, accepted_ans, flag
-    def __init__(self, postedBy, short_description, long_description=None, tags=None, timestamp=None):
+    def __init__(self, postedBy, short_description, long_description=None, tags=[], timestamp=None):
         self.postedBy = postedBy
         self.timestamp = datetime.datetime.utcnow()
         self.short_description = short_description
@@ -16,8 +16,8 @@ class Question():
         quesID = QUESTIONS_COLLECTION.insert_one({
                     'postedBy': self.postedBy, 'short_description': self.short_description,
                     'long_description': self.long_description, 'timestamp': self.timestamp,
-                    'ansID': [], 'commentID': [], 'votes': 0, 'tags': [], 'accepted_ans': None,
-                    'flaggedBy': [], 'flag': 'False'
+                    'ansID': [], 'commentID': [], 'votes': 0, 'tags': self.tags,
+                    'accepted_ans': None, 'flaggedBy': [], 'flag': 'False'
                     }).inserted_id
         usr = User(self.postedBy)
         usr.update_questions(str(quesID))
