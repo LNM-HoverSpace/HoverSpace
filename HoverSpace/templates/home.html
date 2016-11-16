@@ -1,29 +1,70 @@
 {% extends "base.html"%}
 {% block content %}
-      {% for i in feed %}
-      <div id= "vote_div" class="container">
-        <label class="control-label" for = "upvotes">
-          <label for="upvotes">{{ i['upvotes'] }}</label>
-            <div class="vote_roundrect">
-                 <div class="increment_up"></div>
-                    <div class="increment_down"></div>
-            </div>
-        </label>
+<link rel="stylesheet" type="text/css" href="../../static/css/home.css">
+<hr/>
+<div class = row>
+<div id = "tag_column" class = "col-lg-2">
+        <ul id="tag_list">
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+          <li>python</li>
+        </ul>
       </div>
-      <div id = "feed_div" class = "container">
-      <div  class = "form-group">
-      <br>
-        <img id="avatar" src="/static/img/avatar.png">
-          <label class = "control-label" for = "short_description">
-            <a id = "ques_url" href="{{ i['ques_url'] }}"><label for = "short_description">{{ i['short_description'] }}</label></a>
-          </label>
-          <br>
-          <br>
-          <a id="answers" href="{{ i['ques_url'] }}" title="Answers_of_question">Answers</a>
-        <button type = "submit" id="bookmark-this" title="Bookmark This Page">Bookmark</button>
+  <div class = "col-lg-8">
+      {% for i in feed %}
+      <div class = "row ">
+  <div class= "col-lg-8">
+    <div class = "media-object">
+      <div class = "media-object-section">
+          <div id = "avatar" class="thumbnail pull-left">
+                <img  src="http://placehold.it/80x80&text=[img]" />
+          </div>
+      </div>
+      <div class = "media-object-section">
+        <a id="Question" href = "{{ i['ques_url']}}">{{ i['short_description'] }}</a>
         <br>
-        </div>
-        </div>
-        <br>
+        <h6 id="postedBy">{{ i['postedBy'] }}</h6>
+        <h6 id = "time_stamp">{{ i['timestamp'] }}</h6>
+        <h6 id = "ans_count">{{ i['ansCount'] }} Answers</h6>
+      </div>
+    </div>
+  </div>
+  </div>
+  <hr/>
       {% endfor %}
+      </div>
+      <div id = "leader_column" class ="col-lg-2">
+    <h4>Top Contributers</h4>
+    <hr/>
+    <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Karma</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>manish</td>
+        <td>23</td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>18</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>6</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+      </div>
   {% endblock %}

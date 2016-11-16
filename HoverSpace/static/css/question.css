@@ -1,0 +1,65 @@
+#upvote_downvote{
+	position: relative;
+	left:20px;
+}
+#upvote input[type=submit]{
+	background-image: url('../../static/img/upvote.png');
+	position: relative;
+	left: 100px;
+}
+#downvote inpit[type=submit]{
+	background-image: url("../../static/img/downvote.png");
+	position: relative;
+	left: 10px;
+	bottom: 10px;
+}
+#vote-count{
+	position: relative;
+	left: 30px;
+}
+#short_desc{
+	position: relative;
+	top: 20px;
+	left: 50px;
+	font-size: 20px;
+}
+#long_desc{
+	position: relative;
+	top: 20px;
+	left: 50px;
+	font-size: 14px;
+}
+#postedBy{
+	position: relative;
+	left: 400px;
+	top: 40px;
+}
+#time_stamp{
+	position: relative;
+	top: 18px;
+	left: 645px;
+}
+#answer{
+	position: relative;
+	top: 40px;
+	left: 50px;
+	font-size: 14px;
+}
+#postedBy_ans{
+	position: relative;
+	left: 320px;
+	top: 40px;
+}
+#time_stamp_ans{
+	position: relative;
+	top: 18px;
+	left: 470px;
+}
+#avatar_ans{
+	position: relative;
+	top: 20px;
+}
+#ans_form{
+	position: relative;
+	left: 40px;
+}
