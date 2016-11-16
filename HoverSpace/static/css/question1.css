@@ -1,0 +1,189 @@
+#upvote_downvote{
+	position: relative;
+	left:20px;
+}
+#upvote{
+	position: relative;
+	top: 15px;
+}
+#downvote{
+	position: relative;
+	bottom: 12px;
+}
+#vote-count{
+	position: relative;
+	left: 20px;
+}
+#short_desc{
+	position: relative;
+	top: 20px;
+	left: 50px;
+	font-size: 20px;
+}
+#long_desc{
+	position: relative;
+	top: 20px;
+	left: 50px;
+	font-size: 14px;
+}
+#postedBy{
+	position: relative;
+	left: 400px;
+	top: 40px;
+}
+#time_stamp{
+	position: relative;
+	top: 18px;
+	left: 645px;
+}
+#answer{
+	position: relative;
+	top: 40px;
+	left: 50px;
+	font-size: 14px;
+}
+#postedBy_ans{
+	position: relative;
+	left: 320px;
+	top: 40px;
+}
+#time_stamp_ans{
+	position: relative;
+	top: 18px;
+	left: 470px;
+}
+#avatar_ans{
+	position: relative;
+	top: 10px;
+	left: 10px;
+}
+#ans_form{
+	position: relative;
+	left: 180px;
+}
+#submit_btn{
+	position: relative;
+	top: 5px;
+}
+#avatar{
+	position: relative;
+	top: 10px;
+}
+#bookmark_ans{
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  position: relative;
+  left: 185px;
+}
+#bookmark_ans:hover{
+	background: #ec971f;
+  border: 1px solid #d58512;
+  text-decoration: none;
+}
+#bookmark_ans:active{
+	border: 1px solid #d58512;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #ec971f;
+}
+#bookmark_ques{
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  position: relative;
+  left: 190px;
+}
+#bookmark_ques:hover{
+	background: #ec971f;
+  border: 1px solid #d58512;
+  text-decoration: none;
+}
+#bookmark_ques:active{
+	border: 1px solid #d58512;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #ec971f;
+}
+#flag_ques{
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  position: relative;
+  left: 280px;
+  bottom: 29px;
+}
+#flag_ques:hover{
+	background: #ec971f;
+  border: 1px solid #d58512;
+  text-decoration: none;
+}
+#flag_ques:active{
+	border: 1px solid #d58512;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #ec971f;
+}
+#flag_ans{
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+  border-radius: 4px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  position: relative;
+  left: 270px;
+  bottom: 29px;
+}
+#flag_ans:hover{
+	background: #ec971f;
+  border: 1px solid #d58512;
+  text-decoration: none;
+}
+#flag_ans:active{
+	border: 1px solid #d58512;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: #ec971f;
+}
