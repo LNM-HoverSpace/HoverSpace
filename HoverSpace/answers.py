@@ -17,7 +17,8 @@ class Answers():
         ansID = ANSWERS_COLLECTION.insert_one({
                     'postedBy': self.postedBy, 'quesID': self.quesID,
                     'ansText': self.ansText, 'timestamp': self.timestamp,
-                    'quesID': self.quesID, 'commentID': [], 'votes': 0}).inserted_id
+                    'quesID': self.quesID, 'commentID': [], 'votes': 0,
+                    'flaggedBy': [], 'flag': 'False'}).inserted_id
 
         usr = User(self.postedBy)
         usr.update_answers(str(ansID))
@@ -39,14 +40,42 @@ class AnswerMethods():
             answers = []
         return answers
 
-    def update_votes(self, username, vote=[1, -1]):
-        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
-        usr = User(username)
-        usr.update_karma(vote)
 
 class UpdateAnswers(object):
     def __init__(self, ansID):
         self.ansID = ansID
 
+    def getAnswer(self):
+        return (ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.ansID)}))
+
     def update_comments(self, commentID):
         ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$addToSet': {'commentID': commentID}})
+
+    def updateVotes(self, username, vote):
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$inc' : {'votes': vote}})
+        votes = (ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.ansID)}))['votes']
+        return votes
+
+    def setFlag(self, flag):
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.quesID)}, {'$set': {'flag': flag}})
+
+    def getFlag(self):
+        return (ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.quesID)}))['flag']
+
+    def addFlaggedBy(self, userID, postedBy):
+        ans_obj = ANSWERS_COLLECTION.find_one({'_id': ObjectId(self.ansID)})
+        flags = ans_obj['flaggedBy']
+        votes = ans_obj['votes']
+        if userID in flags:
+            return "alreadyFlagged"
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$addToSet': {'flaggedBy': userID}})
+        if (len(flags)>=10):
+            flag = "True"
+            self.setFlag(userID, votes, flag)
+            usr = User(postedBy)
+            usr.update_karma(-votes)
+            return "quesRemoved"
+        return "flagged"
+
+    def removeFlag(self, userID):
+        ANSWERS_COLLECTION.find_one_and_update({'_id': ObjectId(self.ansID)}, {'$pull': {'flaggedBy': userID}})

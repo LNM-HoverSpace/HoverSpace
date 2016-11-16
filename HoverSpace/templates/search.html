@@ -1,0 +1,16 @@
+{% extends "base.html"%}
+{% block content %}
+<form action="" method="POST" name="form">
+	<div class="col-md-4 col-md-offset-4">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			<label class="control-label" for="search_text">Search</label>
+			{{ form.search_text }}
+		</div>
+		<button class="btn btn-default" type="submit">Submit</button>
+	</div>
+</form>
+{% for q in result %}
+  <a href="{{ url_for('viewQuestion', quesID=q['_id']) }}">{{ q['short_description'] }}</a>
+{% endfor %}
+{% endblock %}

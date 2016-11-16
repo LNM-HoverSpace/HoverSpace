@@ -42,7 +42,7 @@ class User(UserMixin):
     def update_answers(self, ansID):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'ansPosted': ansID}})
 
-    def update_karma(self, karma=[1, -1]):
+    def update_karma(self, karma):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$inc': {'karma': karma}})
 
     def setBookmark(self, quesID):
@@ -54,37 +54,128 @@ class User(UserMixin):
             USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'bookmarks': quesID}})
             return True
 
-    def vote_ques(self, quesID, vote):
+    def addQuesVote(self, quesID, vote):
         USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ques': {'quesID': quesID, 'vote': vote}}})
 
-    def vote_ans(self, ansID, vote):
-        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ans': {'ansID': ansID, 'vote': vote}}})
+    def updateQuesVote(self, quesID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username, 'voted_ques.quesID': quesID}, {'$set': {'voted_ques.$.vote': vote}})
 
     def removeQuesVote(self, quesID):
-        USERS_COLLECTION.update_one({'_id': self.username}, {'$pull': {'voted_ques': {'quesID': quesID}}})
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$pull': {'voted_ques': {'quesID': quesID}}})
 
-    def alreadyVotedQues(self, quesID, voteType):
+    def addAnsVote(self, ansID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$addToSet': {'voted_ans': {'ansID': ansID, 'vote': vote}}})
+
+    def updateAnsVote(self, ansID, vote):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username, 'voted_ans.ansID': ansID}, {'$set': {'voted_ans.$.vote': vote}})
+
+    def removeAnsVote(self, ansID):
+        USERS_COLLECTION.find_one_and_update({'_id': self.username}, {'$pull': {'voted_ans': {'ansID': ansID}}})
+
+    def voteQues(self, quesID, voteType):
+        fl = False
+        status = {
+            'votesChange': None,
+            'type': None
+        }
+        voteChange = 0
+        vote = None
         try:
-            fl = False
             voted_ques = list()
             voted_ques = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ques']
             for ques in voted_ques:
                 if ques['quesID'] == quesID:
-                    if voteType == 'up':
-                        if ques['vote'] == 1 or ques['vote'] == -1:
+                    if ques['vote'] == 1:
+                        if voteType == 'up':
                             self.removeQuesVote(quesID)
-                    if voteType == 'down':
-                        if ques['vote'] == 1 or ques['vote'] == -1:
+                            voteChange = -1
+                        else:
+                            self.updateQuesVote(quesID, -1)
+                            voteChange = -2
+                            vote = "downvote"
+                    else:
+                        if voteType == 'up':
+                            self.updateQuesVote(quesID, 1)
+                            voteChange = 2
+                            vote = "upvote"
+                        else:
                             self.removeQuesVote(quesID)
+                            voteChange = 1
                     fl = True
             if not fl:
                 if voteType == "up":
-                    self.vote_ques(quesID, 1)
+                    self.addQuesVote(quesID, 1)
+                    voteChange = 1
+                    vote = "upvote"
                 else:
-                    self.vote_ques(quesID, -1)
-            return fl
+                    self.addQuesVote(quesID, -1)
+                    voteChange = -1
+                    vote = "downvote"
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
         except:
-            return False
+            print ("voteQues except")
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
+
+
+    def voteAns(self, ansID, voteType):
+        fl = False
+        status = {
+            'votesChange': None,
+            'type': None
+        }
+        voteChange = 0
+        vote = None
+        try:
+            voted_ans = list()
+            voted_ans = (USERS_COLLECTION.find_one({'_id': self.username}))['voted_ans']
+            for ans in voted_ans:
+                if ans['ansID'] == ansID:
+                    if ans['vote'] == 1:
+                        if voteType == 'up':
+                            self.removeAnsVote(ansID)
+                            voteChange = -1
+                        else:
+                            self.updateAnsVote(ansID, -1)
+                            voteChange = -2
+                            vote = "downvote"
+                    else:
+                        if voteType == 'up':
+                            self.updateAnsVote(ansID, 1)
+                            voteChange = 2
+                            vote = "upvote"
+                        else:
+                            self.removeAnsVote(ansID)
+                            voteChange = 1
+                    fl = True
+            if not fl:
+                if voteType == "up":
+                    self.addAnsVote(ansID, 1)
+                    voteChange = 1
+                    vote = "upvote"
+                else:
+                    self.addAnsVote(ansID, -1)
+                    voteChange = -1
+                    vote = "downvote"
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
+        except:
+            print ("voteQues except")
+            status = {
+                'votesChange': voteChange,
+                'type': vote
+                }
+            return status
 
     def alreadyVotedAns(self, ansID):
         try:
