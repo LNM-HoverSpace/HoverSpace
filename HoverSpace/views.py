@@ -113,7 +113,7 @@ def signup():
 def viewTagQuestion(tag):
     quesID = TagQuestion(tag)
     l = []
-    for q in quesID:
+    for q in quesID.getQuestions()      :
         qq = QuestionMethods(q)
         l.append(qq.getQuestion())
     return render_template('tag.html', title='HoverSpace | Tag Questions', tags=tag, result=l)

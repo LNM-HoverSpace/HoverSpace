@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="../../static/css/tag.css">
+<div class="row">
+<h4>Result for {{ tags }}: </h4>
+<hr/>
+{% for q in result%}
+	<div class="col-md-8">
+		<a id = "ques" href="{{ url_for('viewQuestion', quesID=q['_id']) }}">{{ q['short_description'] }}</a>
+  		<br>
+  		<h5 id = "postedBy">Posted By : {{ q['postedBy'] }}</h5>
+  		<h5 id = "timestamp">{{ q['timestamp'] }}</h5>
+  		<hr/>
+	</div>
+{% endfor %}
+</div>
+{% endblock %}
