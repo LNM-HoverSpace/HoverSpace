@@ -7,8 +7,8 @@
     <h4 id = "tag_id">Tags</h4>
     <hr/>
         <ul id="tag_list">
-          {% for tag in tags %}
-            <li>{{ tag }}</li>
+          {% for t in tags %}
+            <li><a href="{{ url_for('viewTagQuestion', tag=t) }}">{{ t }}</a></li>
           {% endfor %}
         </ul>
       </div>

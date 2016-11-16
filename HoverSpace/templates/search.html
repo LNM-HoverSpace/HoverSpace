@@ -9,8 +9,10 @@
 	<div id = "search_col" class = "col-md-8 col-md-offset-3">
   		<a href="{{ url_for('viewQuestion', quesID=q['_id']) }}">{{ q['short_description'] }}</a>
   		<br>
-  		<h5 id = "postedBy">Posted By : {{ q['postedBy'] }}</h5>
-  		<h5 id = "timestamp">{{ q['timestamp'] }}</h5>
+  		<h5 id="postedBy">Posted By: 
+  			<a href="{{ url_for('profile', userID=q['postedBy']) }}">{{ q['postedBy'] }}</a>
+  		</h5>
+  		<h5 id="timestamp">Posted On: {{ q['timestamp'].strftime('%Y-%m-%d') }}</h5>
   		<hr/>
   	</div>
 {% endfor %}
