@@ -1,0 +1,17 @@
+#result_head{
+	position: relative;
+	left: 300px;
+}
+#postedBy{
+	position: relative;
+	left: 250px;
+}
+#timestamp{
+	position: relative;
+	left: 380px;
+	bottom: 25px;
+}
+#hor_line{
+	position: relative;
+	right: 20px;
+}
