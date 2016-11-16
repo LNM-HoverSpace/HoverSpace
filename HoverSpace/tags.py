@@ -22,7 +22,7 @@ class TagMethods(object):
 
 class TagQuestion(object):
 	def __init__(self, tag):
-		self.tag = self.tag
+		self.tag = tag
 
 	def getQuestions():
 		return (TAGS_COLLECTION.find({'_id': self.tag}))['quesID']
