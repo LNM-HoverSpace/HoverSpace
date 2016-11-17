@@ -48,7 +48,9 @@
             <br>
             <input type="image" id="qvote-down" class="avote-down" src="../../static/img/downvote.png">
             <br>
-            <button id="bookmark_ans" class="accepted" type="button" >Set as Accepted</button>
+            {% if question['postedBy'] == current_user.get_id() %}
+              <button id="bookmark_ans" class="accepted" type="button" >Set as Accepted</button>
+            {% endif %}
             <button id="flag_ans" class="aflag" type="button" >Flag as inappropiate</button>
             </div> 
           <div class = "col-md-6">
