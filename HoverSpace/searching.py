@@ -92,7 +92,7 @@ class Searching:
         else:
             for key, value in dd.items():
                 l.append(key)
-        return l
+        return l[::-1]
 
     def add_all(self):
         for entry in QUESTIONS_COLLECTION.find():
