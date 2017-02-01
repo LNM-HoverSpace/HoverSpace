@@ -1,4 +1,16 @@
 # HoverSpace
+This web application is supposed to make a public forum on which user can post questions, answer them related to academics and daily life.  
+  
+## Features supported
+* Post questions
+* Answer questions posted by others
+* Vote questions and answers
+* Flag any inappropiate content
+* Automatically delete content if it is flagged by too many users
+* View posts of a particular tag
+* Search website with any keyword  
+
+Link to the website: [HoverSpace](http://hoverspace.herokuapp.com/)
 
 ## Configuration Instructions
 
